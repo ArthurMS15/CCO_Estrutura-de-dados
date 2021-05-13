@@ -100,20 +100,18 @@ void imprimeLista(Lista* l){
         printf("%d\t", ea->dado);
         ea=ea->next;
     }
-    if(ea==NULL){
-        printf("Lista vazia ou fim da lista");
-    }
+    printf("NULL\n");
 }
 
 Elemento *pesquisarElemento(Lista* l, int dado){
     Elemento* aux=l->head;
     while(aux!=NULL){
-        if(aux->dado=dado){
+        if(aux->dado==dado){
             return aux;
         }
         aux=aux->next;
     }
-    return aux;
+    return NULL;
 }
 
 void freeLista(Lista* l){
