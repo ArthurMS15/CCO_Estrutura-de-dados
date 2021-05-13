@@ -37,3 +37,25 @@ Lista *alocaLista(){
     l->size=0;
     return l;
 }
+
+void insereElemento(Lista* l, Elemento* pivo, int dado){
+    Elemento *ea=alocaElemento(dado);
+    ea->dado=dado;
+    if((pivo==NULL) && (l->size>0)){
+        return -1;
+    }
+    if(l->size==0){
+        l->head=ea;
+        l->tail=ea;
+    } else {
+        ea->next=pivo->next;
+        ea->prev=pivo;
+        if(pivo->next==NULL){
+            l->tail=ea;
+        } else {
+            pivo->next->prev=ea;
+        }
+        pivo->next=ea;
+    }
+    l->size++;
+}

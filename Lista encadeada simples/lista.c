@@ -69,7 +69,7 @@ int removeElemento(Lista* l, Elemento* pivo){
     int dado;
     if(l->size==0){
         printf("Lista vazia");
-        return 0;
+        return -1;
     }
     if(pivo==NULL){
         ea=l->head;
@@ -80,7 +80,7 @@ int removeElemento(Lista* l, Elemento* pivo){
     } else {
         if(pivo->next==NULL){
             printf("Erro: fim da lista");
-            return 0;
+            return -2;
         }
         ea=pivo->next;
         pivo->next=pivo->next->next;
