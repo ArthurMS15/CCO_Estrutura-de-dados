@@ -49,7 +49,7 @@ void insereElemento(Lista* l, int dado, Elemento* pivo){
     Elemento *e=alocaElemento(dado);
     e->dado=dado;
     if(pivo==NULL){
-        if (l->size=0){//lista->head==lista->tail==NULL
+        if (l->size==0){//lista->head==lista->tail==NULL
             l->tail==e;
         } 
         e->next=l->head;
