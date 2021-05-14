@@ -19,7 +19,8 @@ void insereElemento(Lista*, Elemento*, int);
 int removeElemento(Elemento*, Lista*);
 void imprimeListaNext(Lista*);
 void imprimeListaPrev(Lista*);
-Elemento *pesquisarElemento(Lista* l, int dado);
+Elemento* pesquisarElementoNext(Lista*, int);
+Elemento* pesquisarElementoPrev(Lista*, int);
 void freeLista(Lista*);
 
 int main(){
@@ -110,13 +111,24 @@ void imprimeListaPrev(Lista* l){
     printf("NULL\n");
 }
 
-Elemento *pesquisarElemento(Lista* l, int dado){
+Elemento *pesquisarElementoNext(Lista* l, int dado){
     Elemento* aux=l->head;
     while(aux!=NULL){
         if(aux->dado==dado){
             return aux;
         }
-        aux=aux->next; //dava pra usar através do prev também, mudando a primeira linha para l->tail e o aux no final sendo igual a aux->prev
+        aux=aux->next; 
+    }
+    return NULL;
+}
+
+Elemento *pesquisarElementoPrev(Lista* l, int dado){
+    Elemento* aux=l->tail;
+    while(aux!=NULL){
+        if(aux->dado==dado){
+            return aux;
+        }
+        aux=aux->prev; 
     }
     return NULL;
 }
