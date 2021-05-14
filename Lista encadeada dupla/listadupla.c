@@ -15,6 +15,10 @@ typedef struct sLista{
 
 Lista* alocaLista();
 Elemento* alocaElemento(int);
+void insereElemento(Lista*, Elemento*, int);
+int removeElemento(Elemento*, Lista*);
+void imprimeListaNext(Lista*);
+void imprimeListaPrev(Lista*);
 
 int main(){
 
@@ -58,4 +62,48 @@ void insereElemento(Lista* l, Elemento* pivo, int dado){
         pivo->next=ea;
     }
     l->size++;
+}
+
+int removeElemento(Elemento* e, Lista* l){
+    int dado;
+    if((e!=NULL) && (l->size>0)){
+        if(e==l->head){
+            l->head=e->next;
+            if(l->head==NULL){
+                l->tail=NULL;
+            } else {
+                e->next->prev=NULL;
+            }
+        } else {
+            e->prev->next=e->next;
+            if(e->next=NULL){
+                l->tail=e->prev;
+            } else {
+                e->next->prev=e->prev;
+            }
+        }
+        dado=e->dado;
+        free(e);
+        l->size--;
+        return dado;
+    }
+    return -1;
+}
+
+void imprimeListaNext(Lista* l){
+    Elemento *ea=l->head; //elemento auxiliar
+    while(ea!=NULL){
+        printf("%d\t", ea->dado);
+        ea=ea->next;
+    }
+    printf("NULL\n");
+}
+
+void imprimeListaPrev(Lista* l){
+    Elemento *ea=l->tail; //elemento auxiliar
+    while(ea!=NULL){
+        printf("%d\t", ea->dado);
+        ea=ea->prev;
+    }
+    printf("NULL\n");
 }
