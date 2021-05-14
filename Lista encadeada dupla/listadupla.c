@@ -79,7 +79,7 @@ int removeElemento(Elemento* e, Lista* l){
             }
         } else {
             e->prev->next=e->next;
-            if(e->next=NULL){
+            if(e->next==NULL){
                 l->tail=e->prev;
             } else {
                 e->next->prev=e->prev;
