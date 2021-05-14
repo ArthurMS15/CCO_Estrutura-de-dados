@@ -20,6 +20,8 @@ int removeElemento(Elemento*, Lista*);
 void imprimeListaNext(Lista*);
 void imprimeListaPrev(Lista*);
 
+void freeLista(Lista*);
+
 int main(){
 
 }
@@ -106,4 +108,11 @@ void imprimeListaPrev(Lista* l){
         ea=ea->prev;
     }
     printf("NULL\n");
+}
+
+void freeLista(Lista* l){
+    while(l->size!=0){
+        removeElemento(NULL, l);
+    }
+    free(l);
 }
