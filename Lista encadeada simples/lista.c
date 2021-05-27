@@ -24,8 +24,25 @@ void freeLista(Lista*);
 int main (){
     Lista *l;
     l=alocaLista();
-    insereElemento(l, 1, l->head);
-    //inserir, remover, consultar e etc.
+    removeElemento(l, l->tail); 
+    insereElemento(l, 1, l->tail);
+    imprimeLista(l);
+    insereElemento(l, 2, l->head);
+    imprimeLista(l);
+    insereElemento(l, 3, l->head->next); 
+    imprimeLista(l);
+    removeElemento(l, l->tail); 
+    insereElemento(l, 4, NULL);
+    imprimeLista(l);
+    insereElemento(l, 5, NULL);
+    imprimeLista(l);
+    removeElemento(l, l->tail); //ok
+    removeElemento(l, l->head);
+    imprimeLista(l);
+    removeElemento(l, NULL);
+    imprimeLista(l);
+
+    freeLista(l);
 }
 
 Elemento *alocaElemento(int d){
@@ -50,7 +67,7 @@ void insereElemento(Lista* l, int dado, Elemento* pivo){
     e->dado=dado;
     if(pivo==NULL){
         if (l->size==0){//lista->head==lista->tail==NULL
-            l->tail==e;
+            l->tail=e;
         } 
         e->next=l->head;
         l->head=e;
@@ -68,7 +85,7 @@ int removeElemento(Lista* l, Elemento* pivo){
     Elemento *ea; //ELEMENTO ANTIGO 
     int dado;
     if(l->size==0){
-        printf("Lista vazia");
+        printf("Erro: lista vazia\n");
         return -1;
     }
     if(pivo==NULL){
@@ -79,7 +96,7 @@ int removeElemento(Lista* l, Elemento* pivo){
         }
     } else {
         if(pivo->next==NULL){
-            printf("Erro: fim da lista");
+            printf("Erro: fim da lista\n");
             return -2;
         }
         ea=pivo->next;
