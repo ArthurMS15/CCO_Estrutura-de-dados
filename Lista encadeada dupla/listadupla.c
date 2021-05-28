@@ -127,6 +127,8 @@ int removeElemento(Elemento* e, Lista* l){
         l->size--;
         return dado;
     }
+    printf("Erro: elemento NULL ou lista vazia\n");
+    return -1;
 }
 
 void imprimeListaNext(Lista* l){
