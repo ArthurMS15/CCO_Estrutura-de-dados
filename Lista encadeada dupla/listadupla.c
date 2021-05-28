@@ -86,7 +86,7 @@ void insereElemento(Lista* l, Elemento* pivo, int dado){
     ea->dado=dado;
     if((pivo==NULL) && (l->size>0)){
         printf("Erro: pivo NULL apenas na insercao do primeiro elemento\n");
-        return -1;
+        return;
     }
     if(l->size==0){
         l->head=ea;
