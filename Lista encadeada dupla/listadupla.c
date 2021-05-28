@@ -24,7 +24,40 @@ Elemento* pesquisarElementoPrev(Lista*, int);
 void freeLista(Lista*);
 
 int main(){
+    Lista *l;
+    l=alocaLista();
 
+    removeElemento(l->tail, l); 
+    insereElemento(l, l->tail, 1);
+    
+    imprimeListaNext(l);
+
+    insereElemento(l, l->head, 2);
+
+    imprimeListaNext(l);
+
+    insereElemento(l, l->head->next, 3); 
+
+    imprimeListaNext(l);
+
+    removeElemento(l->tail, l); 
+
+    imprimeListaNext(l);
+    imprimeListaPrev(l);
+
+    insereElemento(l, NULL, 4);
+    insereElemento(l, NULL, 5);
+
+    removeElemento(l->tail, l);
+
+    imprimeListaNext(l);
+
+    removeElemento(l->head, l);
+
+    imprimeListaNext(l);
+
+
+    freeLista(l);
 }
 
 Elemento *alocaElemento(int d){
@@ -49,6 +82,7 @@ void insereElemento(Lista* l, Elemento* pivo, int dado){
     Elemento *ea=alocaElemento(dado);
     ea->dado=dado;
     if((pivo==NULL) && (l->size>0)){
+        printf("Erro: pivo NULL apenas na insercao do primeiro elemento\n");
         return -1;
     }
     if(l->size==0){
@@ -89,12 +123,15 @@ int removeElemento(Elemento* e, Lista* l){
         free(e);
         l->size--;
         return dado;
+    } else {
+        printf("Erro: elemento NULL ou lista vazia\n");
+        return -1;
     }
-    return -1;
 }
 
 void imprimeListaNext(Lista* l){
     Elemento *ea=l->head; //elemento auxiliar
+    printf("NULL\t");
     while(ea!=NULL){
         printf("%d\t", ea->dado);
         ea=ea->next;
@@ -104,6 +141,7 @@ void imprimeListaNext(Lista* l){
 
 void imprimeListaPrev(Lista* l){
     Elemento *ea=l->tail; //elemento auxiliar
+    printf("NULL\t");
     while(ea!=NULL){
         printf("%d\t", ea->dado);
         ea=ea->prev;

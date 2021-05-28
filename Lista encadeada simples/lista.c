@@ -26,20 +26,33 @@ int main (){
     l=alocaLista();
     removeElemento(l, l->tail); 
     insereElemento(l, 1, l->tail);
+
     imprimeLista(l);
+
     insereElemento(l, 2, l->head);
+
     imprimeLista(l);
+
     insereElemento(l, 3, l->head->next); 
+
     imprimeLista(l);
+
     removeElemento(l, l->tail); 
     insereElemento(l, 4, NULL);
+
     imprimeLista(l);
+
     insereElemento(l, 5, NULL);
+
     imprimeLista(l);
-    removeElemento(l, l->tail); //ok
+
+    removeElemento(l, l->tail); 
     removeElemento(l, l->head);
+
     imprimeLista(l);
+
     removeElemento(l, NULL);
+    
     imprimeLista(l);
 
     freeLista(l);
