@@ -175,14 +175,9 @@ Elemento *pesquisarElementoPrev(Lista* l, int dado){
 
 void freeLista(Lista* l){
     Elemento* aux = l->head;
-    Elemento* next = aux->next;
     while(aux != NULL){
-        free(aux);
-        aux = next;
-        if(aux!= NULL){
-            next = next->next;
-        }
+        aux=aux->next;
+        removeElemento(aux->prev, l);
     }
-    free(next);
     free(l);
 }
