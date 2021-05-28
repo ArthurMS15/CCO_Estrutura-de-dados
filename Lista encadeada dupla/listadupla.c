@@ -21,7 +21,7 @@ void imprimeListaNext(Lista*);
 void imprimeListaPrev(Lista*);
 Elemento* pesquisarElementoNext(Lista*, int);
 Elemento* pesquisarElementoPrev(Lista*, int);
-void freeLista(Elemento*);
+void freeLista(Lista*);
 
 int main(){
     Lista *l;
@@ -171,17 +171,16 @@ Elemento *pesquisarElementoPrev(Lista* l, int dado){
     return NULL;
 }
 
-void freeLista(Elemento* e){
-    printf("TESTE");
-    while(e->next!=NULL){
-        Elemento* aux;
-        aux = e->next;
-        while(e != NULL){
-            aux = e;
-            e = e->next;
-            free(aux);
+void freeLista(Lista* l){
+    Elemento* aux = l->head;
+    Elemento* next = aux->next;
+    while(aux != NULL){
+        free(aux);
+        aux = next;
+        if(aux!= NULL){
+            next = next->next;
         }
-        free(e);
     }
+    free(next);
+    free(l);
 }
-
