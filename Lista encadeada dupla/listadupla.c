@@ -21,7 +21,7 @@ void imprimeListaNext(Lista*);
 void imprimeListaPrev(Lista*);
 Elemento* pesquisarElementoNext(Lista*, int);
 Elemento* pesquisarElementoPrev(Lista*, int);
-void freeLista(Lista*);
+void freeLista(Elemento*);
 
 int main(){
     Lista *l;
@@ -39,11 +39,11 @@ int main(){
     insereElemento(l, l->head->next, 3); 
 
     imprimeListaNext(l);
+    imprimeListaPrev(l);
 
     removeElemento(l->tail, l); 
 
     imprimeListaNext(l);
-    imprimeListaPrev(l);
 
     insereElemento(l, NULL, 4);
     insereElemento(l, NULL, 5);
@@ -56,6 +56,9 @@ int main(){
 
     imprimeListaNext(l);
 
+    insereElemento(l, l->tail, 1);
+
+    imprimeListaNext(l);
 
     freeLista(l);
 }
@@ -123,9 +126,6 @@ int removeElemento(Elemento* e, Lista* l){
         free(e);
         l->size--;
         return dado;
-    } else {
-        printf("Erro: elemento NULL ou lista vazia\n");
-        return -1;
     }
 }
 
@@ -171,9 +171,17 @@ Elemento *pesquisarElementoPrev(Lista* l, int dado){
     return NULL;
 }
 
-void freeLista(Lista* l){
-    while(l->size!=0){
-        removeElemento(NULL, l);
+void freeLista(Elemento* e){
+    printf("TESTE");
+    while(e->next!=NULL){
+        Elemento* aux;
+        aux = e->next;
+        while(e != NULL){
+            aux = e;
+            e = e->next;
+            free(aux);
+        }
+        free(e);
     }
-    free(l);
 }
+
