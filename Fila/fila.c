@@ -8,33 +8,78 @@ typedef struct sElemento{
 } Elemento;
 
 typedef struct sFila{
-    struct sElemento *front;
-    struct sElemento *rear;
+    struct sElemento *head;
+    struct sElemento *tail;
+    int front;
+    int rear;
     int size;
 } Fila;
+
+void insert(Fila*, int);
+Fila* alocaFila();
+Elemento* alocaElemento(int);
+void remove(Fila*);
+void imprimeFila(Fila*);
+int empty(Fila*);
 
 int main(){
     Fila *f;
     f=alocaFila();
+    insert(f, 1);
+    insert(f, 2);
+    insert(f, 3);
+    imprimeFila(f);
 }
 
 void insert(Fila* f, int d){
     Elemento *ea=alocaElemento(d);
-    Elemento *pivo=f->rear;
+    Elemento *pivo=f->tail;
     ea->dado=d;
     if(f->size==0){
-        f->front=ea;
-        f->rear=ea;
+        f->head=ea;
+        f->tail=ea;
     } else {
-
+        ea->next=pivo->next;
+        ea->prev=pivo;
+        if(pivo->next==NULL){
+            f->tail=ea;
+        } else {
+            pivo->next->prev=ea;
+        }
+        pivo->next=ea;
     }
     f->rear++;
     f->size+=(f->rear - f->front + 1);
 }
 
+void remove(Fila* f){
+    //int dado;
+    Elemento *pivo=NULL;
+    Elemento *e=f->head;
+    if(f->size>0){
+        if(e==f->head){
+            f->head=e->next;
+            if(f->head==NULL){
+                f->tail=NULL;
+            } else {
+                e->next->prev=NULL;
+            }
+        }
+        //dado=e->dado;
+        free(e);
+        f->front++;
+        f->size+=(f->rear - f->front + 1);
+        printf("Primeiro da lista removido\n");
+    } else {
+        printf("Erro: lista vazia\n");
+    }
+}
+
 Fila *alocaFila(){
     Fila *f;
     f=(Fila*)malloc(sizeof(Fila));
+    f->head=NULL;
+    f->tail=NULL;
     f->front=0;
     f->rear=-1;
     f->size=0;
@@ -48,6 +93,16 @@ Elemento *alocaElemento(int d){
     e->prev=NULL;
     e->dado=d;
     return e;
+}
+
+void imprimeFila(Fila* f){
+    Elemento *ea=f->head; //elemento auxiliar
+    printf("NULL\t");
+    while(ea!=NULL){
+        printf("%d\t", ea->dado);
+        ea=ea->next;
+    }
+    printf("NULL\n");
 }
 
 int empty(Fila* f){
