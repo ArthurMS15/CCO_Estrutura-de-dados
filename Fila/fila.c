@@ -31,6 +31,15 @@ int main(){
     imprimeFila(f);
     removeElemento(f);
     imprimeFila(f);
+    insert(f, 3);
+    imprimeFila(f);
+    empty(f);
+    removeElemento(f);
+    imprimeFila(f);
+    removeElemento(f);
+    imprimeFila(f);
+    removeElemento(f);
+    empty(f);
 }
 
 void insert(Fila* f, int d){
@@ -108,8 +117,10 @@ void imprimeFila(Fila* f){
 
 int empty(Fila* f){
     if(f->rear<f->front){
+        printf("Sim a lista esta vazia\n");
         return 1;
     } else {
+        printf("Nao a lista nao esta vazia\n");
         return 0;
     }
 }
