@@ -16,9 +16,9 @@ typedef struct sFila{
 } Fila;
 
 void insert(Fila*, int);
+void removeElemento(Fila*);
 Fila* alocaFila();
 Elemento* alocaElemento(int);
-void remove(Fila*);
 void imprimeFila(Fila*);
 int empty(Fila*);
 
@@ -28,6 +28,8 @@ int main(){
     insert(f, 1);
     insert(f, 2);
     insert(f, 3);
+    imprimeFila(f);
+    removeElemento(f);
     imprimeFila(f);
 }
 
@@ -52,9 +54,8 @@ void insert(Fila* f, int d){
     f->size+=(f->rear - f->front + 1);
 }
 
-void remove(Fila* f){
+void removeElemento(Fila* f){
     //int dado;
-    Elemento *pivo=NULL;
     Elemento *e=f->head;
     if(f->size>0){
         if(e==f->head){
