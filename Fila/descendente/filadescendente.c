@@ -52,15 +52,15 @@ void insert(FilaAscendente* fa, int d){
 }
 
 int removeElemento(FilaAscendente* fa){
-    int min ;
+    int max ;
     Elemento  *follow, *follow1, *p, *p1 ;
     if(fa->size!=0){ 
         p=p1=fa->head;
         follow=follow1=NULL ;
-        min=fa->head->dado ;
+        max=fa->head->dado ;
         while(p!=NULL){
-                if(p->dado<min){
-                        min=p->dado;
+                if(max<p->dado){
+                        max=p->dado;
                         follow1=follow;
                         p1=p;
                     }
@@ -82,7 +82,7 @@ int removeElemento(FilaAscendente* fa){
         else 			/* deleting any other node.*/
             follow1->next=p1->next ;
         free(p1) ;
-        return min ; /* DONT FORGET LAST 2 STATEMENTS.*/
+        return max ; /* DONT FORGET LAST 2 STATEMENTS.*/
     } else {
         printf("Erro: lista vazia\n");
         return -1;
