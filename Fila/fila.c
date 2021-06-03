@@ -10,8 +10,6 @@ typedef struct sElemento{
 typedef struct sFila{
     struct sElemento *head;
     struct sElemento *tail;
-    int front;
-    int rear;
     int size;
 } Fila;
 
@@ -59,26 +57,22 @@ void insert(Fila* f, int d){
         }
         pivo->next=ea;
     }
-    f->rear++;
-    f->size+=(f->rear - f->front + 1);
+    f->size++;
 }
 
 void removeElemento(Fila* f){
     //int dado;
     Elemento *e=f->head;
     if(f->size>0){
-        if(e==f->head){
-            f->head=e->next;
-            if(f->head==NULL){
-                f->tail=NULL;
-            } else {
-                e->next->prev=NULL;
-            }
+        f->head=e->next;
+        if(f->head==NULL){
+            f->tail=NULL;
+        } else {
+            e->next->prev=NULL;
         }
         //dado=e->dado;
         free(e);
-        f->front++;
-        f->size+=(f->rear - f->front + 1);
+        f->size--;
         printf("Primeiro da lista removido\n");
     } else {
         printf("Erro: lista vazia\n");
@@ -90,8 +84,6 @@ Fila *alocaFila(){
     f=(Fila*)malloc(sizeof(Fila));
     f->head=NULL;
     f->tail=NULL;
-    f->front=0;
-    f->rear=-1;
     f->size=0;
     return f;
 }
@@ -116,7 +108,7 @@ void imprimeFila(Fila* f){
 }
 
 int empty(Fila* f){
-    if(f->rear<f->front){
+    if(f->size==0){
         printf("Sim a lista esta vazia\n");
         return 1;
     } else {
