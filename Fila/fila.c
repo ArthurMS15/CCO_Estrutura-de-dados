@@ -14,7 +14,7 @@ typedef struct sFila{
 } Fila;
 
 void insert(Fila*, int);
-void removeElemento(Fila*);
+void removeF(Fila*);
 Fila* alocaFila();
 Elemento* alocaElemento(int);
 void imprimeFila(Fila*);
@@ -27,16 +27,16 @@ int main(){
     insert(f, 2);
     insert(f, 3);
     imprimeFila(f);
-    removeElemento(f);
+    removeF(f);
     imprimeFila(f);
     insert(f, 3);
     imprimeFila(f);
     empty(f);
-    removeElemento(f);
+    removeF(f);
     imprimeFila(f);
-    removeElemento(f);
+    removeF(f);
     imprimeFila(f);
-    removeElemento(f);
+    removeF(f);
     empty(f);
 }
 
@@ -60,8 +60,8 @@ void insert(Fila* f, int d){
     f->size++;
 }
 
-void removeElemento(Fila* f){
-    //int dado;
+void removeF(Fila* f){
+    int dado;
     Elemento *e=f->head;
     if(f->size>0){
         f->head=e->next;
@@ -70,12 +70,14 @@ void removeElemento(Fila* f){
         } else {
             e->next->prev=NULL;
         }
-        //dado=e->dado;
+        dado=e->dado;
         free(e);
         f->size--;
         printf("Primeiro da lista removido\n");
+        return dado;
     } else {
         printf("Erro: lista vazia\n");
+        return -1;
     }
 }
 

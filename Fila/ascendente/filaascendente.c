@@ -11,7 +11,6 @@ typedef struct sFila{
     struct sElemento *head;
     struct sElemento *tail;
     int front;
-    int rear;
     int size;
 } FilaAscendente;
 
@@ -50,53 +49,48 @@ void insert(FilaAscendente* fa, int d){
         }
         pivo->next=ea;
     }
-    fa->rear++;
-    fa->size+=(fa->rear - fa->front + 1);
+    fa->size++;
 }
 
 void removeElemento(FilaAscendente* fa){
     Elemento *e=fa->head;
     int auxmin=acharMinimo(fa);
     int **pp;
-    if(fa->size>0){
-        while(e!=NULL){
-            if(e->dado==auxmin){
-                pp=&e;
+    int min ;
+    Elemento  *follow, *follow1, *p, *p1 ;
+    if(fa->size!=0){ 
+        p=p1=fa->head;
+        follow=follow1=NULL ;
+        min=fa->head->dado ;
+        while(p!=NULL){
+                if(p->dado<min){
+                        min=p->dado;
+                        follow1=follow;
+                        p1=p;
+                    }
+                follow=p;
+                p=p->next;
             }
-            e=e->next;
-        }
-        free(*pp);
-        fa->front++;
-        fa->size+=(fa->rear - fa->front + 1);
-        printf("Menor da lista removido\n");
+        /* Deleting the node with min value */
+        if(p1==fa->head) /* deleting first node.*/
+            {
+                fa->head=fa->head->next ;
+                if(fa->head==NULL) /* Deleting the only one node */
+                    fa->tail=NULL ;
+            }
+        else if(p1==fa->tail) /* Deleting last node */
+            {
+                fa->tail=follow1 ;
+                fa->tail->next=NULL ;
+            }
+        else 			/* deleting any other node.*/
+            follow1->next=p1->next ;
+        free(p1) ;
+        return min ; /* DONT FORGET LAST 2 STATEMENTS.*/
     } else {
         printf("Erro: lista vazia\n");
+        return -1;
     }
-}
-
-int acharMaximo(FilaAscendente* fa){
-    Elemento *e=fa->head;
-    int max=0;
-    while(e!=NULL){
-        if(max<=e->dado){
-            max=e->dado;
-        }
-        e=e->next;
-    }
-    return max;
-}
-
-int acharMinimo(FilaAscendente* fa){
-    Elemento *e=fa->head;
-    int max=acharMaximo(fa);
-    int min=max+1;
-    while(e!=NULL){
-        if(e->dado<=min){
-            min=e->dado;
-        }
-        e=e->next;
-    }
-    return min;
 }
 
 FilaAscendente *alocaFila(){
@@ -104,8 +98,6 @@ FilaAscendente *alocaFila(){
     fa=(FilaAscendente*)malloc(sizeof(FilaAscendente));
     fa->head=NULL;
     fa->tail=NULL;
-    fa->front=0;
-    fa->rear=-1;
     fa->size=0;
     return fa;
 }
@@ -130,7 +122,7 @@ void imprimeFila(FilaAscendente* fa){
 }
 
 int empty(FilaAscendente* fa){
-    if(fa->rear<fa->front){
+    if(fa->size==0){
         printf("Sim a lista esta vazia\n");
         return 1;
     } else {
