@@ -10,7 +10,6 @@ typedef struct sElemento{
 typedef struct sFila{
     struct sElemento *head;
     struct sElemento *tail;
-    int front;
     int size;
 } FilaAscendente;
 
@@ -53,9 +52,6 @@ void insert(FilaAscendente* fa, int d){
 }
 
 void removeElemento(FilaAscendente* fa){
-    Elemento *e=fa->head;
-    int auxmin=acharMinimo(fa);
-    int **pp;
     int min ;
     Elemento  *follow, *follow1, *p, *p1 ;
     if(fa->size!=0){ 
