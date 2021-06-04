@@ -53,36 +53,37 @@ void insert(FilaAscendente* fa, int d){
 
 int removeElemento(FilaAscendente* fa){
     int min;
-    Elemento  *follow, *follow1, *p, *p1 ;
+    Elemento  *salvafila_aux, *salvafila, *aux_e, *guardar_aux_e;
     if(fa->size!=0){ 
-        p=p1=fa->head;
-        follow=follow1=NULL;
+        aux_e=guardar_aux_e=fa->head;
+        salvafila_aux=salvafila=NULL;
         min=fa->head->dado;
-        while(p!=NULL){
-                if(p->dado<min){
-                        min=p->dado;
-                        follow1=follow;
-                        p1=p;
-                    }
-                follow=p;
-                p=p->next;
+
+        while(aux_e!=NULL){
+            if(min>aux_e->dado){
+                min=aux_e->dado;
+                salvafila=salvafila_aux;
+                guardar_aux_e=aux_e;
             }
-        /* Deleting the node with min value */
-        if(p1==fa->head) /* deleting first node.*/
-            {
-                fa->head=fa->head->next ;
-                if(fa->head==NULL) /* Deleting the only one node */
-                    fa->tail=NULL ;
+            salvafila_aux=aux_e;
+            aux_e=aux_e->next;
+        }
+
+        if(guardar_aux_e==fa->head){ 
+            fa->head=fa->head->next;
+            if(fa->head==NULL){ 
+                fa->tail=NULL;
             }
-        else if(p1==fa->tail) /* Deleting last node */
-            {
-                fa->tail=follow1 ;
-                fa->tail->next=NULL ;
-            }
-        else 			/* deleting any other node.*/
-            follow1->next=p1->next ;
-        free(p1) ;
-        return min ; /* DONT FORGET LAST 2 STATEMENTS.*/
+        } else if(guardar_aux_e==fa->tail){ 
+            fa->tail=salvafila; 
+            fa->tail->next=NULL; 
+        }
+        else { 
+            salvafila->next=guardar_aux_e->next; 
+        }
+
+        free(guardar_aux_e);
+        return min; 
     } else {
         printf("Erro: lista vazia\n");
         return -1;

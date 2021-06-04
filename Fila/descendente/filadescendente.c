@@ -52,37 +52,43 @@ void insert(FilaAscendente* fa, int d){
 }
 
 int removeElemento(FilaAscendente* fa){
-    int max ;
-    Elemento  *follow, *follow1, *p, *p1 ;
+    int max;
+    Elemento  *salvafila_aux, *salvafila, *aux_e, *guardar_aux_e;
+
     if(fa->size!=0){ 
-        p=p1=fa->head;
-        follow=follow1=NULL ;
-        max=fa->head->dado ;
-        while(p!=NULL){
-                if(max<p->dado){
-                        max=p->dado;
-                        follow1=follow;
-                        p1=p;
-                    }
-                follow=p;
-                p=p->next;
+        aux_e=guardar_aux_e=fa->head;
+        salvafila_aux=salvafila=NULL;
+        max=fa->head->dado;
+
+        while(aux_e!=NULL){
+            if(max<aux_e->dado){
+                max=aux_e->dado;
+                salvafila=salvafila_aux;
+                guardar_aux_e=aux_e;
             }
-        /* Deleting the node with min value */
-        if(p1==fa->head) /* deleting first node.*/
-            {
-                fa->head=fa->head->next ;
-                if(fa->head==NULL) /* Deleting the only one node */
-                    fa->tail=NULL ;
+            salvafila_aux=aux_e;
+            aux_e=aux_e->next;
+        }
+        //aux_e servindo apenas para continuar a lista no while, verificando os dados;
+        //guardar_aux_e assim como o nome representa vai servir para guardar o elemento auxiliar quando for encontrado um dado maximo;
+        //o salvafila_aux, vai passar a guardar o aux_e também caso o elemento na fila não seja o maior, sendo assim o salvafila quando encontrado vai passar a guardar também o salvafila_aux.
+
+        if(guardar_aux_e==fa->head){ // caso o elemento seja o primeiro da fila
+            fa->head=fa->head->next;
+            if(fa->head==NULL){ 
+                fa->tail=NULL;
             }
-        else if(p1==fa->tail) /* Deleting last node */
-            {
-                fa->tail=follow1 ;
-                fa->tail->next=NULL ;
-            }
-        else 			/* deleting any other node.*/
-            follow1->next=p1->next ;
-        free(p1) ;
-        return max ; /* DONT FORGET LAST 2 STATEMENTS.*/
+        } else if(guardar_aux_e==fa->tail){ //caso o elemento seja o ultimo da fila
+            fa->tail=salvafila; //tail será igual ao valor que o salvafila guardou do salvafila_aux quando foi encontrado o dado de valor maximo
+            fa->tail->next=NULL; //garantindo que posteior ao tail tenha um null, caso o salvafila tenha sido algum elemento do meio da fila
+        }
+        else { 
+            salvafila->next=guardar_aux_e->next; //se o guardar_aux_e não for nem o ultimo e nem o primeiro elemento
+        }
+        //garantir ordem na lista
+
+        free(guardar_aux_e);
+        return max; 
     } else {
         printf("Erro: lista vazia\n");
         return -1;
