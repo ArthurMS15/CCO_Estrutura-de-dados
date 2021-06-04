@@ -52,12 +52,12 @@ void insert(FilaAscendente* fa, int d){
 }
 
 int removeElemento(FilaAscendente* fa){
-    int min ;
+    int min;
     Elemento  *follow, *follow1, *p, *p1 ;
     if(fa->size!=0){ 
         p=p1=fa->head;
-        follow=follow1=NULL ;
-        min=fa->head->dado ;
+        follow=follow1=NULL;
+        min=fa->head->dado;
         while(p!=NULL){
                 if(p->dado<min){
                         min=p->dado;
