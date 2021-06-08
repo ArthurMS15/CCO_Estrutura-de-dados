@@ -17,6 +17,7 @@ typedef struct sFila{
 Fila *alocaFila();
 Elemento *alocaElemento(int);
 void insert(Fila*, int);
+void insertHead(Fila*, int);
 int retiraEstacionamento(Fila*, int);
 Elemento *pesquisarElemento(Fila*, int);
 int removeFila(Fila*);
@@ -31,10 +32,11 @@ int main(){
     insert(f, 1);
     insert(f, 2);
     insert(f, 3);
+    insert(f, 4);
+    insert(f, 5);
     imprimeFila(f);
-    retiraEstacionamento(f, 2);
+    retiraEstacionamento(f, 4);
     imprimeFila(f);
-    
 }
 
 Fila *alocaFila(){
@@ -77,6 +79,31 @@ void insert(Fila* f, int d){
     }
 }
 
+
+void insertHead(Fila* f, int d){
+    Elemento *ea=alocaElemento(d);
+    Elemento *pivo=f->head;
+    ea->dado=d;
+    if(f->size<10){ 
+        if(f->size==0){
+            f->head=ea;
+            f->tail=ea;
+        } else {
+            ea->next=pivo->next;
+            ea->prev=pivo;
+            if(pivo->next==NULL){ 
+                f->tail=ea;
+            } else {
+                pivo->next->prev=ea;
+            }
+            pivo->next=ea;
+        }
+        f->size++;
+    } else {
+        printf("Estacionamento lotado, nao pode haver mais de 10 carros\n");
+    }
+}
+
 int retiraEstacionamento(Fila* f, int encontrado){
     Elemento *prim_original, *aux, *prim_atual;
     int atual, a_encontrar=0;
@@ -89,9 +116,8 @@ int retiraEstacionamento(Fila* f, int encontrado){
             a_encontrar=aux->dado;
             do{
                 atual = removeFila(f);
-                printf("atual:%d\n", atual);
                 if(atual!=a_encontrar){
-                    insert(f, atual);
+                    insertHead(f, atual);
                 }
                 prim_atual=f->tail;
             } while (prim_atual != prim_original);
