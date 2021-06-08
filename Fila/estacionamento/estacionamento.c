@@ -17,9 +17,13 @@ typedef struct sFila{
 Fila *alocaFila();
 Elemento *alocaElemento(int);
 void insert(Fila*, int);
+int retiraEstacionamento(Fila*, int);
+Elemento *pesquisarElemento(Fila*, int);
+int removeFila(Fila*);
+int removeElemento(Elemento*, Fila*);
 void imprimeFila(Fila*);
 int empty(Fila*);
-
+/*void freeFila(FilaAscendente*);*/
 
 int main(){
     Fila *f;
@@ -27,7 +31,8 @@ int main(){
     insert(f, 1);
     insert(f, 2);
     insert(f, 3);
-    
+    imprimeFila(f);
+    retiraEstacionamento(f, 2);
     imprimeFila(f);
     
 }
@@ -70,6 +75,75 @@ void insert(Fila* f, int d){
     } else {
         printf("Estacionamento lotado, nao pode haver mais de 10 carros\n");
     }
+}
+
+int retiraEstacionamento(Fila* f, int encontrado){
+    Elemento *prim_original, *aux, *prim_atual;
+    int atual, a_encontrar=0;
+
+    prim_original=f->tail;
+    aux=pesquisarElemento(f, encontrado);
+    
+    if(f->size!=0 && f->size<10){ 
+        if(aux!=NULL){
+            a_encontrar=aux->dado;
+            do{
+                atual = removeFila(f);
+                printf("atual:%d\n", atual);
+                if(atual!=a_encontrar){
+                    insert(f, atual);
+                }
+                prim_atual=f->tail;
+            } while (prim_atual != prim_original);
+        } else {
+            printf("Carro nao encontrado no estacionamento\n");
+        }
+    } else {
+        printf("Erro: estacionamento cheio ou vazio\n");
+        return -1;
+    }
+}
+
+Elemento *pesquisarElemento(Fila* f, int dado){
+    Elemento* aux=f->head;
+    while(aux!=NULL){
+        if(aux->dado==dado){
+            return aux;
+        }
+        aux=aux->next; 
+    }
+    return NULL;
+}
+
+int removeFila(Fila* f){
+    return removeElemento(f->tail, f);
+}
+
+int removeElemento(Elemento* e, Fila* f){
+    int dado;
+    if((e!=NULL) && (f->size>0)){
+        if(e==f->head){
+            f->head=e->next;
+            if(f->head==NULL){
+                f->tail=NULL;
+            } else {
+                e->next->prev=NULL;
+            }
+        } else {
+            e->prev->next=e->next;
+            if(e->next==NULL){
+                f->tail=e->prev;
+            } else {
+                e->next->prev=e->prev;
+            }
+        }
+        dado=e->dado;
+        free(e);
+        f->size--;
+        return dado;
+    }
+    printf("Erro: elemento NULL ou lista vazia\n");
+    return -1;
 }
 
 void imprimeFila(Fila* f){
