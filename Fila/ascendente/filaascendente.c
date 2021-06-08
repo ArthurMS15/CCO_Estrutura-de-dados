@@ -19,6 +19,8 @@ FilaAscendente *alocaFila();
 Elemento *alocaElemento(int);
 void imprimeFila(FilaAscendente*);
 int empty(FilaAscendente* fa);
+Elemento *pesquisarElementoNext(FilaAscendente*, int);
+void freeFila(FilaAscendente*);
 
 int main(){
     FilaAscendente *fa;
@@ -29,6 +31,9 @@ int main(){
     imprimeFila(fa);
     removeElemento(fa);
     imprimeFila(fa);
+    empty(fa);
+    pesquisarElementoNext(fa, 3);
+    freeFila(fa);
 }
 
 void insert(FilaAscendente* fa, int d){
@@ -126,4 +131,29 @@ int empty(FilaAscendente* fa){
         printf("Nao a lista nao esta vazia\n");
         return 0;
     }
+}
+
+Elemento *pesquisarElementoNext(FilaAscendente* fa, int dado){
+    Elemento* aux=fa->head;
+    while(aux!=NULL){
+        if(aux->dado==dado){
+            return aux;
+        }
+        aux=aux->next; 
+    }
+    return NULL;
+}
+
+void freeFila(FilaAscendente* fa){
+    Elemento* aux = fa->head;
+    Elemento* next = aux->next;
+    while(aux != NULL){
+        free(aux);
+        aux = next;
+        if(aux!= NULL){
+            next = next->next;
+        }
+    }
+    free(next);
+    free(fa);
 }

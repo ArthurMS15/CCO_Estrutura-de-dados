@@ -11,55 +11,59 @@ typedef struct sFila{
     struct sElemento *head;
     struct sElemento *tail;
     int size;
-} FilaAscendente;
+} FilaDescendente;
 
-void insert(FilaAscendente*, int);
-int removeElemento(FilaAscendente*);
-FilaAscendente *alocaFila();
+void insert(FilaDescendente*, int);
+int removeElemento(FilaDescendente*);
+FilaDescendente *alocaFila();
 Elemento *alocaElemento(int);
-void imprimeFila(FilaAscendente*);
-int empty(FilaAscendente*);
-void freeFila(FilaAscendente*);
+void imprimeFila(FilaDescendente*);
+int empty(FilaDescendente*);
+Elemento *pesquisarElementoNext(FilaDescendente*, int);
+void freeFila(FilaDescendente*);
 
 int main(){
-    FilaAscendente *fa;
-    fa=alocaFila();
-    insert(fa, 2);
-    insert(fa, 1);
-    insert(fa, 3);
-    imprimeFila(fa);
-    removeElemento(fa);
-    imprimeFila(fa);
+    FilaDescendente *fd;
+    fd=alocaFila();
+    insert(fd, 2);
+    insert(fd, 1);
+    insert(fd, 3);
+    imprimeFila(fd);
+    removeElemento(fd);
+    imprimeFila(fd);
+    empty(fd);
+    pesquisarElementoNext(fd, 3);
+    freeFila(fd);
 }
 
-void insert(FilaAscendente* fa, int d){
+void insert(FilaDescendente* fd, int d){
     Elemento *ea=alocaElemento(d);
-    Elemento *pivo=fa->tail;
+    Elemento *pivo=fd->tail;
     ea->dado=d;
-    if(fa->size==0){
-        fa->head=ea;
-        fa->tail=ea;
+    if(fd->size==0){
+        fd->head=ea;
+        fd->tail=ea;
     } else {
         ea->next=pivo->next;
         ea->prev=pivo;
         if(pivo->next==NULL){ 
-            fa->tail=ea;
+            fd->tail=ea;
         } else {
             pivo->next->prev=ea;
         }
         pivo->next=ea;
     }
-    fa->size++;
+    fd->size++;
 }
 
-int removeElemento(FilaAscendente* fa){
+int removeElemento(FilaDescendente* fd){
     int max;
     Elemento  *salvafila_aux, *salvafila, *aux_e, *guardar_aux_e;
 
-    if(fa->size!=0){ 
-        aux_e=guardar_aux_e=fa->head;
+    if(fd->size!=0){ 
+        aux_e=guardar_aux_e=fd->head;
         salvafila_aux=salvafila=NULL;
-        max=fa->head->dado;
+        max=fd->head->dado;
 
         while(aux_e!=NULL){
             if(max<aux_e->dado){
@@ -74,14 +78,14 @@ int removeElemento(FilaAscendente* fa){
         //guardar_aux_e assim como o nome representa vai servir para guardar o elemento auxiliar quando for encontrado um dado maximo;
         //o salvafila_aux, vai passar a guardar o aux_e também caso o elemento na fila não seja o maior, sendo assim o salvafila quando encontrado vai passar a guardar também o salvafila_aux.
 
-        if(guardar_aux_e==fa->head){ // caso o elemento seja o primeiro da fila
-            fa->head=fa->head->next;
-            if(fa->head==NULL){ 
-                fa->tail=NULL;
+        if(guardar_aux_e==fd->head){ // caso o elemento seja o primeiro da fila
+            fd->head=fd->head->next;
+            if(fd->head==NULL){ 
+                fd->tail=NULL;
             }
-        } else if(guardar_aux_e==fa->tail){ //caso o elemento seja o ultimo da fila
-            fa->tail=salvafila; //tail será igual ao valor que o salvafila guardou do salvafila_aux quando foi encontrado o dado de valor maximo
-            fa->tail->next=NULL; //garantindo que posteior ao tail tenha um null, caso o salvafila tenha sido algum elemento do meio da fila
+        } else if(guardar_aux_e==fd->tail){ //caso o elemento seja o ultimo da fila
+            fd->tail=salvafila; //tail será igual ao valor que o salvafila guardou do salvafila_aux quando foi encontrado o dado de valor maximo
+            fd->tail->next=NULL; //garantindo que posteior ao tail tenha um null, caso o salvafila tenha sido algum elemento do meio da fila
         }
         else { 
             salvafila->next=guardar_aux_e->next; //se o guardar_aux_e não for nem o ultimo e nem o primeiro elemento
@@ -96,13 +100,13 @@ int removeElemento(FilaAscendente* fa){
     }
 }
 
-FilaAscendente *alocaFila(){
-    FilaAscendente *fa;
-    fa=(FilaAscendente*)malloc(sizeof(FilaAscendente));
-    fa->head=NULL;
-    fa->tail=NULL;
-    fa->size=0;
-    return fa;
+FilaDescendente *alocaFila(){
+    FilaDescendente *fd;
+    fd=(FilaDescendente*)malloc(sizeof(FilaDescendente));
+    fd->head=NULL;
+    fd->tail=NULL;
+    fd->size=0;
+    return fd;
 }
 
 Elemento *alocaElemento(int d){
@@ -114,8 +118,8 @@ Elemento *alocaElemento(int d){
     return e;
 }
 
-void imprimeFila(FilaAscendente* fa){
-    Elemento *ea=fa->head; //elemento auxiliar
+void imprimeFila(FilaDescendente* fd){
+    Elemento *ea=fd->head; //elemento auxiliar
     printf("NULL\t");
     while(ea!=NULL){
         printf("%d\t", ea->dado);
@@ -124,8 +128,8 @@ void imprimeFila(FilaAscendente* fa){
     printf("NULL\n");
 }
 
-int empty(FilaAscendente* fa){
-    if(fa->size==0){
+int empty(FilaDescendente* fd){
+    if(fd->size==0){
         printf("Sim a lista esta vazia\n");
         return 1;
     } else {
@@ -134,8 +138,8 @@ int empty(FilaAscendente* fa){
     }
 }
 
-Elemento *pesquisarElementoNext(FilaAscendente* l, int dado){
-    Elemento* aux=l->head;
+Elemento *pesquisarElementoNext(FilaDescendente* fd, int dado){
+    Elemento* aux=fd->head;
     while(aux!=NULL){
         if(aux->dado==dado){
             return aux;
@@ -145,11 +149,16 @@ Elemento *pesquisarElementoNext(FilaAscendente* l, int dado){
     return NULL;
 }
 
-void freeFila(FilaAscendente* f){
-    Elemento* aux = f->head;
+void freeFila(FilaDescendente* fd){
+    Elemento* aux = fd->head;
+    Elemento* next = aux->next;
     while(aux != NULL){
-        aux=aux->next;
-        removeElemento(/*aux->prev,*/ f);
+        free(aux);
+        aux = next;
+        if(aux!= NULL){
+            next = next->next;
+        }
     }
-    free(f);
+    free(next);
+    free(fd);
 }
