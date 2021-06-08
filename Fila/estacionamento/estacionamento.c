@@ -37,6 +37,15 @@ int main(){
     imprimeFila(f);
     retiraEstacionamento(f, 4);
     imprimeFila(f);
+    insert(f, 6);
+    insert(f, 7);
+    insert(f, 8);
+    insert(f, 9);
+    insert(f, 10);
+    insert(f, 11);
+    imprimeFila(f);
+    insert(f, 12);
+    freeFila(f);
 }
 
 Fila *alocaFila(){
@@ -192,13 +201,18 @@ int empty(Fila* f){
     }
 }
 
-/*void freeFila(FilaAscendente* f){
+void freeFila(Fila* f){
     Elemento* aux = f->head;
+    Elemento* next = aux->next;
     while(aux != NULL){
-        aux=aux->next;
-        removeElemento(aux->prev, f);
+        free(aux);
+        aux = next;
+        if(aux!= NULL){
+            next = next->next;
+        }
     }
+    free(next);
     free(f);
-}*/
+}
 
 
