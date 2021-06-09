@@ -44,19 +44,17 @@ char pop(Elemento* t){
 int verify(char* str, Elemento* t) { 
     char aux;
     for (int i=0; i<strlen(str); i++){ 
-        if (str == '( ' || str == '[ ' || str == '{' ){ 
+        if (str == '(' || str == '[' || str == '{' ){ 
             push(t, str);
             t->size++; 
         }
-    }
-    for (int i=0; i<strlen(str); i++){
-        if (str == ') ' || str == '] ' || str == '}' ){
+        if (str == ')' || str == ']' || str == '}' ){
             if(empty(t)==1){
                 return -1;
             } else {
                 aux = pop(t);
                 t->size--; 
-                if(aux != '( ' && aux != '[ ' && aux != '{' ){
+                if(aux != '(' || aux != '[' || aux != '{' ){
                     return -2;
                 }
             }
@@ -79,3 +77,6 @@ int empty(Elemento* t){
     }
 }
  
+ void imprimePilha(Elemento* e){
+     
+ }
