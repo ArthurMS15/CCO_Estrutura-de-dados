@@ -13,21 +13,30 @@ typedef struct sFila{
     int size;
 } Fila;
 
+typedef struct sFilaEspera{
+    struct sElemento *head;
+    struct sElemento *tail;
+    int size;
+} FilaEspera;
+
 Fila *alocaFila();
 Elemento *alocaElemento(int);
 void insert(Fila*, int);
 void insertHead(Fila*, int);
+void insertEspera(FilaEspera*, int);
 int retiraEstacionamento(Fila*, int);
 Elemento *pesquisarElemento(Fila*, int);
 int removeFila(Fila*);
 int removeElemento(Elemento*, Fila*);
 void imprimeFila(Fila*);
 int empty(Fila*);
-/*void freeFila(FilaAscendente*);*/
+void freeFila(Fila*);
 
 int main(){
     Fila *f;
     f=alocaFila();
+    FilaEspera *fe;
+    fe=alocaFila();
     insert(f, 1);
     insert(f, 2);
     insert(f, 3);
@@ -44,6 +53,7 @@ int main(){
     insert(f, 11);
     imprimeFila(f);
     insert(f, 12);
+    insertEspera(fe, 12);
     freeFila(f);
 }
 
@@ -83,7 +93,7 @@ void insert(Fila* f, int d){
         }
         f->size++;
     } else {
-        printf("Estacionamento lotado, nao pode haver mais de 10 carros\n");
+        printf("Insira seu carro na lista de espera - estacionamento lotado\n");
     }
 }
 
@@ -110,6 +120,26 @@ void insertHead(Fila* f, int d){
     } else {
         printf("Estacionamento lotado, nao pode haver mais de 10 carros\n");
     }
+}
+
+void insertEspera(FilaEspera* fe, int d){
+    Elemento *ea=alocaElemento(d);
+    Elemento *pivo=fe->tail;
+    ea->dado=d;
+    if(fe->size==0){
+        fe->head=ea;
+        fe->tail=ea;
+    } else {
+        ea->next=pivo->next;
+        ea->prev=pivo;
+        if(pivo->next==NULL){ 
+            fe->tail=ea;
+        } else {
+            pivo->next->prev=ea;
+        }
+        pivo->next=ea;
+    }
+    fe->size++;
 }
 
 int retiraEstacionamento(Fila* f, int encontrado){
