@@ -19,6 +19,7 @@ Fila* alocaFila();
 Elemento* alocaElemento(int);
 void imprimeFila(Fila*);
 int empty(Fila*);
+void freeFila(Fila*);
 
 int main(){
     Fila *f;
@@ -38,6 +39,7 @@ int main(){
     imprimeFila(f);
     removeF(f);
     empty(f);
+    freeFila(f);
 }
 
 void insert(Fila* f, int d){
@@ -117,4 +119,13 @@ int empty(Fila* f){
         printf("Nao a lista nao esta vazia\n");
         return 0;
     }
+}
+
+void freeFila(Fila* f){
+    Elemento* aux = f->head;
+    while(aux != NULL){
+        aux=aux->next;
+        removeF(f);
+    }
+    free(f);
 }

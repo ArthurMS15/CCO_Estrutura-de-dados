@@ -125,10 +125,6 @@ int pop(Pilha* p){
     return -1;
 }
 
-//lastin firstout - vertical
-/*push(s,i) s.items[++s.top]=i em vetor
-pilha - s
-i - item
-pop(s) x=s.items[stop--]; em vetor
-overflow e underflow
-*/
+void freePilha(Pilha* p){
+    
+}
