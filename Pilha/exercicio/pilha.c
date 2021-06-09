@@ -29,7 +29,6 @@ void push(Elemento* t, char dado){
     e->dado = dado; 
     e->next = t->next; 
     t->next = e;
-    t->size++;
 }
 
 char pop(Elemento* t){
@@ -63,7 +62,8 @@ int verify(char* str, Elemento* t) {
             }
         }
     }
-    if(empty==0){
+    if(empty(t)==0){
+        printf("A string nao eh valida");
         return -3;
     } else {
         printf("A string eh valida");
@@ -73,10 +73,8 @@ int verify(char* str, Elemento* t) {
 
 int empty(Elemento* t){
     if(t->size==0){
-        printf("Sim a lista esta vazia\n");
         return 1;
     } else {
-        printf("Nao a lista nao esta vazia\n");
         return 0;
     }
 }
