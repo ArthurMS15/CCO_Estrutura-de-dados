@@ -24,7 +24,7 @@ Elemento *alocaElemento(int);
 void insert(Fila*, int);
 void insertHead(Fila*, int);
 void insertEspera(FilaEspera*, int);
-int retiraEstacionamento(Fila*, int);
+int retiraEstacionamento(Fila*, FilaEspera*, int);
 Elemento *pesquisarElemento(Fila*, int);
 int removeFila(Fila*);
 int removeElemento(Elemento*, Fila*);
@@ -43,7 +43,7 @@ int main(){
     insert(f, 4);
     insert(f, 5);
     imprimeFila(f);
-    retiraEstacionamento(f, 4);
+    retiraEstacionamento(f, fe, 4);
     imprimeFila(f);
     insert(f, 6);
     insert(f, 7);
@@ -54,6 +54,16 @@ int main(){
     imprimeFila(f);
     insert(f, 12);
     insertEspera(fe, 12);
+    imprimeFila(fe);
+    retiraEstacionamento(f, fe, 5);
+    imprimeFila(fe);
+    imprimeFila(f);
+    insertEspera(fe, 13);
+    imprimeFila(fe);
+    retiraEstacionamento(f, fe, 6);
+    imprimeFila(fe);
+    imprimeFila(f);
+    freeFila(fe);
     freeFila(f);
 }
 
@@ -142,14 +152,15 @@ void insertEspera(FilaEspera* fe, int d){
     fe->size++;
 }
 
-int retiraEstacionamento(Fila* f, int encontrado){
+int retiraEstacionamento(Fila* f, FilaEspera* fe, int encontrado){
     Elemento *prim_original, *aux, *prim_atual;
     int atual, a_encontrar=0;
+    int aux_size=f->size;
 
     prim_original=f->tail;
     aux=pesquisarElemento(f, encontrado);
     
-    if(f->size!=0 && f->size<10){ 
+    if(f->size!=0){ 
         if(aux!=NULL){
             a_encontrar=aux->dado;
             do{
@@ -162,8 +173,11 @@ int retiraEstacionamento(Fila* f, int encontrado){
         } else {
             printf("Carro nao encontrado no estacionamento\n");
         }
+        if(aux_size==10 && fe->size>0){
+            insert(f, fe->tail->dado);
+        }
     } else {
-        printf("Erro: estacionamento cheio ou vazio\n");
+        printf("Erro: estacionamento vazio\n");
         return -1;
     }
 }
