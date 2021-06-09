@@ -19,9 +19,20 @@ Elemento *alocaElemento(int);
 void imprimePilha(Pilha*);
 int empty(Pilha*);
 void stacktop(Pilha*);
+void push(Pilha*, int);
+int pop(Pilha*);
 
 int main(){
-
+    Pilha *p;
+    p=alocaPilha();
+    push(p, 1);
+    push(p, 2);
+    push(p, 3);
+    imprimePilha(p);
+    stacktop(p);
+    pop(p);
+    imprimePilha(p);
+    stacktop(p);
 }
 
 Pilha *alocaPilha(){
@@ -63,17 +74,61 @@ int empty(Pilha* p){
 }
 
 void stacktop(Pilha* p){
-    printf("%d", p->tail->dado);
+    printf("Elemento do topo: %d\n", p->tail->dado);
+}
+
+void push(Pilha* p, int dado){
+    Elemento *ea=alocaElemento(dado);
+    Elemento *pivo=p->tail;
+    ea->dado=dado;
+    if(p->size==0){
+        p->head=ea;
+        p->tail=ea;
+    } else {
+        ea->next=pivo->next;
+        ea->prev=pivo;
+        if(pivo->next==NULL){
+            p->tail=ea;
+        } else {
+            pivo->next->prev=ea;
+        }
+        pivo->next=ea;
+    }
+    p->size++;
+}
+
+int pop(Pilha* p){
+    int dado;
+    Elemento *e=p->tail;
+    if((p!=NULL) && (p->size>0)){
+        if(e==p->head){
+            p->head=e->next;
+            if(p->head==NULL){
+                p->tail=NULL;
+            } else {
+                e->next->prev=NULL;
+            }
+        } else {
+            e->prev->next=e->next;
+            if(e->next==NULL){
+                p->tail=e->prev;
+            } else {
+                e->next->prev=e->prev;
+            }
+        }
+        dado=e->dado;
+        free(e);
+        p->size--;
+        return dado;
+    }
+    printf("Erro: elemento NULL ou lista vazia\n");
+    return -1;
 }
 
 //lastin firstout - vertical
-//push() - empilhar - inserir
-//pop() - desempilhar - remover
 /*push(s,i) s.items[++s.top]=i em vetor
 pilha - s
 i - item
 pop(s) x=s.items[stop--]; em vetor
 overflow e underflow
-
-stacktop(s) - retorna uma consulta do elemento q esta no topo da pilha mas sem remover
 */
