@@ -102,17 +102,17 @@ char pop(Pilha* p){
 }
 
 int verificar(char* str, Pilha* p){
-    char aux[255];
+    /*char aux[255];
     for (int i=0; i<strlen(str); i++){
         if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
             aux[i]=str[i];
         }
-    }
+    }*/
     /*for (int i=0; i<strlen(str); i++){
         printf("%c\n", aux[i]);
     }*/
     for (int i=0; i<strlen(str); i++){
-        if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){  
+          
             if (str[0] == ')' || str[0]  == ']' || str[0]  == '}' ){
                 printf("Erro: nao se pode comecar com ), ] ou }\n");
                 return -1;
@@ -121,37 +121,31 @@ int verificar(char* str, Pilha* p){
                     push(p, str[i]);
                 }
                 if (str[i] == '('){
-                    if(aux[i+1] == ')'){
-                        pop(p);
-                    } else {
-                        printf("Erro: Adicionou parenteses mas nao fechou com ele ou nao fechou\n");
-                        //return -2;
-                    }  
-                }
-                if (str[i] == '['){
-                    if(aux[i+1] == ']'){;
-                        pop(p);
-                    } else {
-                        printf("Erro: Adicionou colchetes mas nao fechou com ele ou nao fechou\n");
-                        //return -2;
-                    }  
-                }
-                if (str[i] == '{'){
-                    if(aux[i+1] == '}'){
-                        pop(p);
-                    } else {
-                        printf("Erro: Adicionou chaves mas nao fechou com ele ou nao fechou\n");
-                        //return -2;
-                    }  
+                    for (int i=0; i<strlen(str); i++){
+                        if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
+                            if(str[i] == ')'){
+                                pop(p);
+                            } else {
+                                printf("Erro: Adicionou parenteses mas nao fechou com ele ou nao fechou\n");
+                                validar(p);
+                                return -2;
+                            }
+                        }
+                    }
                 }
             }
-        }
+        
     }
+    validar(p);
+}
+
+void validar(Pilha* p){
     if(empty(p)==1){
         printf("Equacao valida\n");
     } else {
         printf("Equacao invalida\n");
     }
+    return 0;
 }
 
 /*int verify(char* str, Elemento* t){ 
