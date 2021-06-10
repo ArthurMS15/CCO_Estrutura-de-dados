@@ -63,7 +63,7 @@ int verify(char* str, Elemento* t){
             t->size++;
             printf("%c\n", t->dado);
         }
-        if (str == ')' || str[i] == ']' || str[i] == '}' ){
+        if (str[i] == ')' || str[i] == ']' || str[i] == '}' ){
             if(empty(t)==1){
                 return -1;
             } else {
