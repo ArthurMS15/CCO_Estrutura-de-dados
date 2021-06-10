@@ -96,133 +96,37 @@ char pop(Pilha* p){
         free(e);
         p->size--;
         return dado;
-    } else if ((p!=NULL) && (p->size==0)){
-        p->size--;
     }
+    printf("Erro: elemento NULL ou lista vazia\n");
+    return -1;
 }
 
 int verificar(char* str, Pilha* p){
-    char aux[255];
-    /*for (int i=0; i<strlen(str); i++){
-        if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
-            aux[i]=str[i];
-        }
-    }*/
-    /*for (int i=0; i<strlen(str); i++){
-        printf("%c\n", aux[i]);
-    }*/
     for (int i=0; i<strlen(str); i++){
-          
-            if (str[0] == ')' || str[0]  == ']' || str[0]  == '}' ){
-                printf("Erro: nao se pode comecar com ), ] ou }\n");
-                return -1;
-            } else{
-                if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
-                    push(p, str[i]);
-                }
-                if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
-                    if(str[i] == ')'){
-                        pop(p);
-                    } else {
-                        printf("Erro: Adicionou parenteses mas nao fechou com ele ou nao fechou\n");
-                        validar(p);
-                        return -2;
-                    }
-                }
 
-                /*if (str[i] == '['){
-                    for (int i=0; i<strlen(str); i++){
-                        if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
-                            aux[i]=str[i];
-                        }
-                        if(aux[i] == ']' || aux[i] == '}'){
-                            printf("Erro: Fechou com colchete ou chaves antes do parenteses\n");
-                            validar(p);
-                            return -2;
-                        } else {
-                            if(aux[i] == ')'){
-                                if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
-                                    aux[i]=str[i];
-                                }
-
-                            }
-                        }
-
-
-                        if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
-                            if(str[i] == ')'){
-                                printf("teste\n");
-                                //ok fechou o parenteses
-                                for (int i=0; i<strlen(str); i++){
-                                    if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
-                                        if(str[i] == ']'){
-                                            pop(p);
-                                        } else{
-                                            printf("Erro: Adicionou colchetes mas nao fechou com ele ou nao fechou\n");
-                                            validar(p);
-                                            return -2;
-                                        }
-                                    }
-                                }
-                            } else {
-                                printf("Erro: Nao adicionou parenteses ou adicionou mas nao o fechou\n");
-                                validar(p);
-                                return -2;
-                            }
-                        }
-                    }
-                }*/
-
-
+        if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
+                push(p, str[i]);
+        } else if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' ){
+            if(empty(p)==1){
+                printf("Equacao invalida\n");
+                return 0;
+            } else {
+                pop(p);
             }
-        
+        }      
     }
-    validar(p);
-}
-
-void validar(Pilha* p){
     if(empty(p)==1){
         printf("Equacao valida\n");
     } else {
         printf("Equacao invalida\n");
     }
-    return 0;
 }
-
-/*int verify(char* str, Elemento* t){ 
-    char aux;
-    for (int i=0; i<strlen(str); i++){ 
-        if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
-            push(t, str[i]);
-            t->size++;
-            printf("%c\n", t->dado);
-        }
-        if (str[i] == ')' || str[i] == ']' || str[i] == '}' ){
-            if(empty(t)==1){
-                return -1;
-            } else {
-                aux = pop(t);
-                t->size--; 
-                if(aux != '(' || aux != '[' || aux != '{' ){
-                    return -2;
-                }
-            }
-        }
-    }
-    if(empty(t)==0){
-        printf("A string nao eh valida");
-        return -3;
-    } else {
-        printf("A string eh valida");
-        return 1;
-    }
-}*/
 
 void imprimePilha(Pilha* p){
     Elemento *ea=p->tail; //elemento auxiliar
     printf("NULL\n");
     while(ea!=NULL){
-        printf("%d\n", ea->dado);
+        printf("%c\n", ea->dado);
         ea=ea->prev;
     }
     printf("NULL\n");
