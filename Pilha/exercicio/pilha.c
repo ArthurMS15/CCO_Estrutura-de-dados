@@ -6,18 +6,26 @@ typedef struct sElemento{
     struct sElemento *next;
     struct sElemento *prev;
     char dado;
-    int size;
 } Elemento;
 
-void push(Elemento*, char);
-char pop(Elemento*);
-int verify(char*, Elemento*);
-int empty(Elemento*);
-void imprimePilha(Elemento*);
+typedef struct sPilha{
+    struct sElemento *head;
+    struct sElemento *tail;
+    int size;
+} Pilha;
+
+Pilha *alocaPilha();
+Elemento *alocaElemento(char);
+void imprimePilha(Pilha*);
+int empty(Pilha*);
+void stacktop(Pilha*);
+void push(Pilha*, char);
+char pop(Pilha*);
+void freePilha(Pilha*);
 
 
 int main(){
-    char str[255];  
+    /*char str[255];  
     Elemento cabeca; 
     Elemento *topo; 
     topo = &cabeca; 
@@ -25,7 +33,16 @@ int main(){
     printf("Informe a string: "); 
     gets(str); 
     verify(str, topo);
-    return 0; 
+    return 0;*/ 
+}
+
+Pilha *alocaPilha(){
+    Pilha *p;
+    p=(Pilha*)malloc(sizeof(Pilha));
+    p->head=NULL;
+    p->tail=NULL;
+    p->size=0;
+    return p;
 }
 
 Elemento *alocaElemento(char d){
@@ -34,28 +51,58 @@ Elemento *alocaElemento(char d){
     e->next=NULL;
     e->prev=NULL;
     e->dado=d;
-    e->size=0;
     return e;
 }
 
-void push(Elemento* t, char dado){
-    Elemento *e=alocaElemento(dado);
-    e->dado = dado; 
-    e->next = t->next; 
-    t->next = e;
+void push(Pilha* p, char dado){
+    Elemento *ea=alocaElemento(dado);
+    Elemento *pivo=p->tail;
+    ea->dado=dado;
+    if(p->size==0){
+        p->head=ea;
+        p->tail=ea;
+    } else {
+        ea->next=pivo->next;
+        ea->prev=pivo;
+        if(pivo->next==NULL){
+            p->tail=ea;
+        } else {
+            pivo->next->prev=ea;
+        }
+        pivo->next=ea;
+    }
+    p->size++;
 }
 
-char pop(Elemento* t){
-    char c; 
-    Elemento *pt; 
-    pt = t->next; 
-    c = pt->dado; 
-    t->next = pt->next; 
-    free(pt);
-    return c; 
+char pop(Pilha* p){
+    char dado;
+    Elemento *e=p->tail;
+    if((p!=NULL) && (p->size>0)){
+        if(e==p->head){
+            p->head=e->next;
+            if(p->head==NULL){
+                p->tail=NULL;
+            } else {
+                e->next->prev=NULL;
+            }
+        } else {
+            e->prev->next=e->next;
+            if(e->next==NULL){
+                p->tail=e->prev;
+            } else {
+                e->next->prev=e->prev;
+            }
+        }
+        dado=e->dado;
+        free(e);
+        p->size--;
+        return dado;
+    }
+    printf("Erro: elemento NULL ou lista vazia\n");
+    return -1;
 }
 
-int verify(char* str, Elemento* t){ 
+/*int verify(char* str, Elemento* t){ 
     char aux;
     for (int i=0; i<strlen(str); i++){ 
         if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
@@ -82,13 +129,39 @@ int verify(char* str, Elemento* t){
         printf("A string eh valida");
         return 1;
     }
-} 
+}*/
 
-int empty(Elemento* t){
-    if(t->size==0){
+void imprimePilha(Pilha* p){
+    Elemento *ea=p->tail; //elemento auxiliar
+    printf("NULL\n");
+    while(ea!=NULL){
+        printf("%d\n", ea->dado);
+        ea=ea->prev;
+    }
+    printf("NULL\n");
+}
+
+int empty(Pilha* p){
+    if(p->size==0){
+        printf("Sim a pilha esta vazia\n");
         return 1;
     } else {
+        printf("Nao a pilha nao esta vazia\n");
         return 0;
     }
 }
+
+void stacktop(Pilha* p){
+    printf("Elemento do topo: %d\n", p->tail->dado);
+}
+
+void freePilha(Pilha* p){
+    Elemento* aux = p->tail;
+    while(aux != NULL){
+        aux=aux->prev;
+        pop(p);
+    }
+    free(p);
+}
+
  
