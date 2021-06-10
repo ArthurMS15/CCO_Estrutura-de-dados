@@ -96,9 +96,9 @@ char pop(Pilha* p){
         free(e);
         p->size--;
         return dado;
+    } else if ((p!=NULL) && (p->size==0)){
+        p->size--;
     }
-    printf("Erro: elemento NULL ou lista vazia\n");
-    return -1;
 }
 
 int verificar(char* str, Pilha* p){
@@ -120,22 +120,35 @@ int verificar(char* str, Pilha* p){
                 if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
                     push(p, str[i]);
                 }
-                if (str[i] == '('){
-                    for (int i=0; i<strlen(str); i++){
-                        if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
-                            if(str[i] == ')'){
-                                pop(p);
-                            } else {
-                                printf("Erro: Adicionou parenteses mas nao fechou com ele ou nao fechou\n");
-                                validar(p);
-                                return -2;
-                            }
-                        }
+                if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
+                    if(str[i] == ')'){
+                        pop(p);
+                    } else {
+                        printf("Erro: Adicionou parenteses mas nao fechou com ele ou nao fechou\n");
+                        validar(p);
+                        return -2;
                     }
                 }
 
-                if (str[i] == '['){
+                /*if (str[i] == '['){
                     for (int i=0; i<strlen(str); i++){
+                        if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
+                            aux[i]=str[i];
+                        }
+                        if(aux[i] == ']' || aux[i] == '}'){
+                            printf("Erro: Fechou com colchete ou chaves antes do parenteses\n");
+                            validar(p);
+                            return -2;
+                        } else {
+                            if(aux[i] == ')'){
+                                if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
+                                    aux[i]=str[i];
+                                }
+
+                            }
+                        }
+
+
                         if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
                             if(str[i] == ')'){
                                 printf("teste\n");
@@ -158,7 +171,7 @@ int verificar(char* str, Pilha* p){
                             }
                         }
                     }
-                }
+                }*/
 
 
             }
