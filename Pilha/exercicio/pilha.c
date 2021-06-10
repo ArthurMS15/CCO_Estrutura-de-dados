@@ -102,17 +102,26 @@ char pop(Pilha* p){
 }
 
 int verificar(char* str, Pilha* p){
-    char aux;
+    char aux[255];
     for (int i=0; i<strlen(str); i++){
-        if (str[0] == ')' || str[0]  == ']' || str[0]  == '}' ){
-            printf("Erro: nao se pode comecar com ), ] ou }\n");
-            return -1;
-        } else{
-            if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
-                push(p, str[i]);
-            }
-            switch(str[i]){
-                case ('('):
+        if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
+            aux[i]=str[i];
+        }
+    }
+    for (int i=0; i<strlen(str); i++){
+        if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){  
+            if (str[0] == ')' || str[0]  == ']' || str[0]  == '}' ){
+                printf("Erro: nao se pode comecar com ), ] ou }\n");
+                return -1;
+            } else{
+                if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
+                    push(p, str[i]);
+                }
+                switch(str[i]){
+                    case ('('):
+                        if(str[i])
+                        break;
+                }
             }
         }
     }
