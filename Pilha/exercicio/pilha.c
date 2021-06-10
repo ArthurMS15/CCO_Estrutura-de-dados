@@ -121,7 +121,13 @@ int verificar(char* str, Pilha* p){
                     push(p, str[i]);
                 }
                 if (str[i] == '('){
-                    printf("%c\n", aux[i+1]);
+                    if(aux[i+1] == ')'){
+                        //pop
+                    } else {
+                        printf("Erro: Adicionou parenteses mas nao fechou com ele\n");
+                        return -2;
+                    }
+                    
                 }
             }
         }
