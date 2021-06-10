@@ -22,18 +22,17 @@ void stacktop(Pilha*);
 void push(Pilha*, char);
 char pop(Pilha*);
 void freePilha(Pilha*);
+int verificar(char*, Pilha*);
 
 
 int main(){
-    /*char str[255];  
-    Elemento cabeca; 
-    Elemento *topo; 
-    topo = &cabeca; 
-    topo->next = NULL; 
+    Pilha *p;
+    p=alocaPilha();
+    char str[255];  
     printf("Informe a string: "); 
-    gets(str); 
-    verify(str, topo);
-    return 0;*/ 
+    gets(str);
+    verificar(str, p); 
+    return 0;
 }
 
 Pilha *alocaPilha(){
@@ -100,6 +99,23 @@ char pop(Pilha* p){
     }
     printf("Erro: elemento NULL ou lista vazia\n");
     return -1;
+}
+
+int verificar(char* str, Pilha* p){
+    char aux;
+    for (int i=0; i<strlen(str); i++){
+        if (str[0] == ')' || str[0]  == ']' || str[0]  == '}' ){
+            printf("Erro: nao se pode comecar com ), ] ou }\n");
+            return -1;
+        } else{
+            if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
+                push(p, str[i]);
+            }
+            switch(str[i]){
+                case ('('):
+            }
+        }
+    }
 }
 
 /*int verify(char* str, Elemento* t){ 
