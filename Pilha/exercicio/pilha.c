@@ -122,15 +122,35 @@ int verificar(char* str, Pilha* p){
                 }
                 if (str[i] == '('){
                     if(aux[i+1] == ')'){
-                        //pop
+                        pop(p);
                     } else {
-                        printf("Erro: Adicionou parenteses mas nao fechou com ele\n");
-                        return -2;
-                    }
-                    
+                        printf("Erro: Adicionou parenteses mas nao fechou com ele ou nao fechou\n");
+                        //return -2;
+                    }  
+                }
+                if (str[i] == '['){
+                    if(aux[i+1] == ']'){;
+                        pop(p);
+                    } else {
+                        printf("Erro: Adicionou colchetes mas nao fechou com ele ou nao fechou\n");
+                        //return -2;
+                    }  
+                }
+                if (str[i] == '{'){
+                    if(aux[i+1] == '}'){
+                        pop(p);
+                    } else {
+                        printf("Erro: Adicionou chaves mas nao fechou com ele ou nao fechou\n");
+                        //return -2;
+                    }  
                 }
             }
         }
+    }
+    if(empty(p)==1){
+        printf("Equacao valida\n");
+    } else {
+        printf("Equacao invalida\n");
     }
 }
 
@@ -175,10 +195,8 @@ void imprimePilha(Pilha* p){
 
 int empty(Pilha* p){
     if(p->size==0){
-        printf("Sim a pilha esta vazia\n");
         return 1;
     } else {
-        printf("Nao a pilha nao esta vazia\n");
         return 0;
     }
 }
