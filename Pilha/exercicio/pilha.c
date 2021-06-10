@@ -102,8 +102,8 @@ char pop(Pilha* p){
 }
 
 int verificar(char* str, Pilha* p){
-    /*char aux[255];
-    for (int i=0; i<strlen(str); i++){
+    char aux[255];
+    /*for (int i=0; i<strlen(str); i++){
         if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
             aux[i]=str[i];
         }
@@ -133,6 +133,34 @@ int verificar(char* str, Pilha* p){
                         }
                     }
                 }
+
+                if (str[i] == '['){
+                    for (int i=0; i<strlen(str); i++){
+                        if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
+                            if(str[i] == ')'){
+                                printf("teste\n");
+                                //ok fechou o parenteses
+                                for (int i=0; i<strlen(str); i++){
+                                    if(str[i] == ')' || str[i]  == ']' || str[i]  == '}'){
+                                        if(str[i] == ']'){
+                                            pop(p);
+                                        } else{
+                                            printf("Erro: Adicionou colchetes mas nao fechou com ele ou nao fechou\n");
+                                            validar(p);
+                                            return -2;
+                                        }
+                                    }
+                                }
+                            } else {
+                                printf("Erro: Nao adicionou parenteses ou adicionou mas nao o fechou\n");
+                                validar(p);
+                                return -2;
+                            }
+                        }
+                    }
+                }
+
+
             }
         
     }
