@@ -108,6 +108,9 @@ int verificar(char* str, Pilha* p){
             aux[i]=str[i];
         }
     }
+    /*for (int i=0; i<strlen(str); i++){
+        printf("%c\n", aux[i]);
+    }*/
     for (int i=0; i<strlen(str); i++){
         if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' || str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){  
             if (str[0] == ')' || str[0]  == ']' || str[0]  == '}' ){
@@ -117,10 +120,8 @@ int verificar(char* str, Pilha* p){
                 if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
                     push(p, str[i]);
                 }
-                switch(str[i]){
-                    case ('('):
-                        if(str[i])
-                        break;
+                if (str[i] == '('){
+                    printf("%c\n", aux[i+1]);
                 }
             }
         }
