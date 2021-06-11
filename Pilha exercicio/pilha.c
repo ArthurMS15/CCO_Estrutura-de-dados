@@ -103,7 +103,6 @@ char pop(Pilha* p){
 
 int verificar(char* str, Pilha* p){
     for (int i=0; i<strlen(str); i++){
-
         if (str[i] == '(' || str[i]  == '[' || str[i]  == '{' ){ 
                 push(p, str[i]);
         } else if (str[i] == ')' || str[i]  == ']' || str[i]  == '}' ){

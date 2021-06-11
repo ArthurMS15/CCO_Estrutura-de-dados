@@ -49,9 +49,9 @@ int main(){
     insert(f, 12);
     insert(fe, 12);
     imprimeFila(fe);
-    retiraEstacionamento(f, fe, 5);
-    imprimeFila(fe);
-    imprimeFila(f);
+    //retiraEstacionamento(f, fe, 5);
+    //imprimeFila(fe);
+    //imprimeFila(f);
     freeFila(f);
     freeFila(fe);
 }
