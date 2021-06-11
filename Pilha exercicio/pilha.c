@@ -140,7 +140,7 @@ int empty(Pilha* p){
 }
 
 void stacktop(Pilha* p){
-    printf("Elemento do topo: %d\n", p->tail->dado);
+    printf("Elemento do topo: %c\n", p->tail->dado);
 }
 
 void freePilha(Pilha* p){

@@ -49,9 +49,9 @@ int main(){
     insert(f, 12);
     insert(fe, 12);
     imprimeFila(fe);
-    //retiraEstacionamento(f, fe, 5);
-    //imprimeFila(fe);
-    //imprimeFila(f);
+    retiraEstacionamento(f, fe, 5);
+    imprimeFila(fe);
+    imprimeFila(f);
     freeFila(f);
     freeFila(fe);
 }
@@ -150,7 +150,7 @@ int retiraEstacionamento(Fila* f, Fila* fe, int encontrado){
     }
     while(fe->head != NULL && f->size<10){
         insert(f, fe->head->dado);
-        //retiraEstacionamentoEspera(fe, f->head->dado);
+        retiraEstacionamentoEspera(fe, f->head->dado);
     }
 }
 
