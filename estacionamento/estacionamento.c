@@ -15,8 +15,7 @@ typedef struct sFila{
 
 Fila *alocaFila();
 Elemento *alocaElemento(int);
-void insert(Fila*, int);
-void insertHead(Fila*, int);
+void insert(Fila*, int, Elemento*);
 int retiraEstacionamento(Fila*, Fila*, int);
 int retiraEstacionamentoEspera(Fila* f, int);
 Elemento *pesquisarElemento(Fila*, int);
@@ -31,23 +30,23 @@ int main(){
     f=alocaFila();
     Fila *fe;
     fe=alocaFila();
-    insert(f, 1);
-    insert(f, 2);
-    insert(f, 3);
-    insert(f, 4);
-    insert(f, 5);
+    insert(f, 1, f->tail);
+    insert(f, 2, f->tail);
+    insert(f, 3, f->tail);
+    insert(f, 4, f->tail);
+    insert(f, 5, f->tail);
     imprimeFila(f);
     retiraEstacionamento(f, fe, 4);
     imprimeFila(f);
-    insert(f, 6);
-    insert(f, 7);
-    insert(f, 8);
-    insert(f, 9);
-    insert(f, 10);
-    insert(f, 11);
+    insert(f, 6, f->tail);
+    insert(f, 7, f->tail);
+    insert(f, 8, f->tail);
+    insert(f, 9, f->tail);
+    insert(f, 10, f->tail);
+    insert(f, 11, f->tail);
     imprimeFila(f);
-    insert(f, 12);
-    insert(fe, 12);
+    insert(f, 12, f->tail);
+    insert(fe, 12, f->tail);
     imprimeFila(fe);
     retiraEstacionamento(f, fe, 5);
     imprimeFila(fe);
@@ -74,9 +73,8 @@ Elemento *alocaElemento(int dado){
     return e;
 }
 
-void insert(Fila* f, int d){
+void insert(Fila* f, int d, Elemento* pivo){
     Elemento *ea=alocaElemento(d);
-    Elemento *pivo=f->tail;
     ea->dado=d;
     if(f->size<10){ 
         if(f->size==0){
@@ -98,31 +96,6 @@ void insert(Fila* f, int d){
     }
 }
 
-
-void insertHead(Fila* f, int d){
-    Elemento *ea=alocaElemento(d);
-    Elemento *pivo=f->head;
-    ea->dado=d;
-    if(f->size<10){ 
-        if(f->size==0){
-            f->head=ea;
-            f->tail=ea;
-        } else {
-            ea->next=pivo->next;
-            ea->prev=pivo;
-            if(pivo->next==NULL){ 
-                f->tail=ea;
-            } else {
-                pivo->next->prev=ea;
-            }
-            pivo->next=ea;
-        }
-        f->size++;
-    } else {
-        printf("Estacionamento lotado, nao pode haver mais de 10 carros\n");
-    }
-}
-
 int retiraEstacionamento(Fila* f, Fila* fe, int encontrado){
     Elemento *prim_original, *aux, *prim_atual;
     int atual, a_encontrar=0;
@@ -137,7 +110,7 @@ int retiraEstacionamento(Fila* f, Fila* fe, int encontrado){
             do{
                 atual = removeFila(f);
                 if(atual!=a_encontrar){
-                    insertHead(f, atual);
+                    insert(f, atual, f->head);
                 }
                 prim_atual=f->tail;
             } while (prim_atual != prim_original);
@@ -149,7 +122,7 @@ int retiraEstacionamento(Fila* f, Fila* fe, int encontrado){
         return -1;
     }
     while(fe->head != NULL && f->size<10){
-        insert(f, fe->head->dado);
+        insert(f, fe->head->dado, f->tail);
         retiraEstacionamentoEspera(fe, f->head->dado);
     }
 }
@@ -169,7 +142,7 @@ int retiraEstacionamentoEspera(Fila* f, int encontrado){
             do{
                 atual = removeFila(f);
                 if(atual!=a_encontrar){
-                    insertHead(f, atual);
+                    insert(f, atual, f->head);
                 }
                 prim_atual=f->tail;
             } while (prim_atual != prim_original);
