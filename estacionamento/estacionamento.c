@@ -99,7 +99,6 @@ void insert(Fila* f, int d, Elemento* pivo){
 int retiraEstacionamento(Fila* f, Fila* fe, int encontrado){
     Elemento *prim_original, *aux, *prim_atual;
     int atual, a_encontrar=0;
-    int aux_size=f->size;
 
     prim_original=f->tail;
     aux=pesquisarElemento(f, encontrado);
@@ -130,11 +129,9 @@ int retiraEstacionamento(Fila* f, Fila* fe, int encontrado){
 int retiraEstacionamentoEspera(Fila* f, int encontrado){
     Elemento *prim_original, *aux, *prim_atual;
     int atual, a_encontrar=0;
-    int aux_size=f->size;
 
     prim_original=f->tail;
     aux=pesquisarElemento(f, encontrado);
-    printf("aux: %d\n", aux->dado);
     
     if(f->size!=0){ 
         if(aux!=NULL){
