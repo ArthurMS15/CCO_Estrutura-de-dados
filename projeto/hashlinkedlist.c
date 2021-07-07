@@ -11,7 +11,7 @@ typedef struct node {
 
 node* hashtable[M];
 
-//create, delete, find
+unsigned int hash(char*);
 
 int main(){
     for (int i = 0; i < M; i++){
