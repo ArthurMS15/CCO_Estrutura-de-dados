@@ -67,11 +67,10 @@ unsigned int hash(char* str){
     int acumulador=0;
     for(int i=0; i < strlen(str); i++){
         int aux = str[i];
-        printf("\n%i\n", str[i]);
-        acumulador = (31 * acumulador + str[i]);
-        printf("\n%i\n", acumulador);
+        acumulador = (31 * acumulador + str[i]) % M;
     }
-    return acumulador % M;
+    printf("%d", acumulador);
+    return acumulador;
 }
 
 void destroy(node* node){
