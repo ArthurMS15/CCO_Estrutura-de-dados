@@ -54,3 +54,14 @@ void destroy(node* node){
     return;
 }
 
+int find(char* name){
+    int n = hash(name);
+    if(hashtable[n] == NULL){
+        for(node* aux=hashtable[n]; aux != NULL; aux=aux->next){
+            if(aux->name == name){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
