@@ -21,8 +21,17 @@ int main(){
 
 }
 
-unsigned int create(char* n){
-    int n = hash(n);
+unsigned int create(char* name){
+    int n = hash(name);
+    node* node = malloc(sizeof(node));
+    if(node == NULL){
+        exit(1);
+    } else {
+        node->name = name;
+        node->next = hashtable[n];
+        hashtable[n] = node;
+    }
+    return n;
 }
 
 unsigned int hash(char* str){
