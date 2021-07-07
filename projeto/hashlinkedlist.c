@@ -14,6 +14,7 @@ node* hashtable[M];
 unsigned int hash(char*);
 unsigned int create(char*);
 void destroy(node*);
+int find(char*);
 
 int main(){
     for (int i = 0; i < M; i++){
@@ -33,6 +34,7 @@ int main(){
         printf("%s", nome);
         int aux = create(nome);
     }
+    
 
     fclose(file);
 
@@ -47,13 +49,14 @@ int main(){
 
 unsigned int create(char* name){
     int n = hash(name);
-    node* node = malloc(sizeof(node));
-    if(node == NULL){
+    node* nnode = malloc(sizeof(node));
+    if(nnode == NULL){
         exit(1);
     } else {
-        node->name = name;
-        node->next = hashtable[n];
-        hashtable[n] = node;
+        nnode->name = name;
+        nnode->next = hashtable[n];
+        hashtable[n] = nnode;
+        //printf("%s", hashtable[23]->name);
     }
     return n;
 }
@@ -69,7 +72,6 @@ unsigned int hash(char* str){
         int aux = str[i];
         acumulador = (31 * acumulador + str[i]) % M;
     }
-    printf("%d", acumulador);
     return acumulador;
 }
 
