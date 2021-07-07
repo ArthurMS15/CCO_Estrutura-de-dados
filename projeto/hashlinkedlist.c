@@ -20,7 +20,14 @@ int main(){
         hashtable[i] = NULL;
     }
     //setando ponteiros
-
+    
+    for (int i = 0; i < M; i++){
+        if (hashtable[i] != NULL){
+            destroy(hashtable[i]);
+        }
+    }
+    //free no hashtable
+    return 0;
 }
 
 unsigned int create(char* name){
