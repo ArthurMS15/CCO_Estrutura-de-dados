@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define M 26
 
 int main(){
     FILE *file = fopen("teste.txt", "r");
@@ -18,7 +19,7 @@ int main(){
         int acumulador=0;
         for(int i=0; i< strlen(nome); i++){
             int aux=nome[i];
-            acumulador = (31 * acumulador + nome[i]) % 26; //26 É M
+            acumulador = (31 * acumulador + nome[i]) % M;
         }
     }
     fclose(file);
