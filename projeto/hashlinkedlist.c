@@ -11,3 +11,25 @@ typedef struct node {
 
 node* hashtable[M];
 
+//create, delete, find
+
+int main(){
+    for (int i = 0; i < M; i++){
+        hashtable[i] = NULL;
+    }
+    //setando ponteiros
+
+}
+
+unsigned int create(char* n){
+    int n = hash(n);
+}
+
+unsigned int hash(char* str){
+    int sum=0;
+    for(int i=0; str[i] != '\0'; i++){
+        sum += str[i];
+    }
+    return sum % M;
+}
+
