@@ -13,6 +13,7 @@ node* hashtable[M];
 
 unsigned int hash(char*);
 unsigned int create(char*);
+void destroy(node*);
 
 int main(){
     for (int i = 0; i < M; i++){
@@ -41,5 +42,15 @@ unsigned int hash(char* str){
         sum += str[i];
     }
     return sum % M;
+}
+
+void destroy(node* node){
+    if(node->next==NULL){
+        free(node);
+    } else {
+        destroy(node->next);
+        free(node);
+    }
+    return;
 }
 
