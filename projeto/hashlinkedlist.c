@@ -20,7 +20,27 @@ int main(){
         hashtable[i] = NULL;
     }
     //setando ponteiros
-    
+    FILE *file = fopen("teste.txt", "r");
+
+    if(file == NULL){
+        printf("Não foi possivel ler os nomes\n");
+        exit(0);
+    }
+    //iniciando file
+
+    char nome[100];
+    while(fgets(nome, 100, file) != NULL){
+        printf("%s", nome);
+        int aux = create(nome);
+        printf("\n%d\n", aux);
+    }
+
+    int sim = find("\nJOCELINE");
+
+    printf(stdout, "%d\n", sim);
+
+    fclose(file);
+
     for (int i = 0; i < M; i++){
         if (hashtable[i] != NULL){
             destroy(hashtable[i]);
@@ -44,11 +64,18 @@ unsigned int create(char* name){
 }
 
 unsigned int hash(char* str){
-    int sum=0;
-    for(int i=0; str[i] != '\0'; i++){
-        sum += str[i];
+    //int sum=0;
+    //for(int i=0; str[i] != '\0'; i++){
+    //    sum += str[i];
+    //}
+    //return sum % M;
+    int acumulador=0;
+    for(int i=0; i < strlen(str); i++){
+        int aux=str[i];
+        printf()
+        acumulador = (31 * acumulador + str[i]);
     }
-    return sum % M;
+    return acumulador % M;
 }
 
 void destroy(node* node){
