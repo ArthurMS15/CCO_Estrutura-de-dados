@@ -32,12 +32,7 @@ int main(){
     while(fgets(nome, 100, file) != NULL){
         printf("%s", nome);
         int aux = create(nome);
-        printf("\n%d\n", aux);
     }
-
-    int sim = find("\nJOCELINE");
-
-    printf(stdout, "%d\n", sim);
 
     fclose(file);
 
@@ -71,9 +66,10 @@ unsigned int hash(char* str){
     //return sum % M;
     int acumulador=0;
     for(int i=0; i < strlen(str); i++){
-        int aux=str[i];
-        printf()
+        int aux = str[i];
+        printf("\n%i\n", str[i]);
         acumulador = (31 * acumulador + str[i]);
+        printf("\n%i\n", acumulador);
     }
     return acumulador % M;
 }
