@@ -23,7 +23,6 @@ void ht_set(ht_t *, const char *, const char *);
 entry_t *ht_pair(const char *, const char *);
 char *ht_get(ht_t *, const char *);
 void ht_dump(ht_t *);
-void createNode(ht_t *, const char *, const char *);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 
@@ -44,18 +43,18 @@ int main(){
         createNode(ht, "1", nome);
     }*/
 
-    createNode(ht, "1", "em");
-    createNode(ht, "2", "russian");
-    createNode(ht, "3", "pizza");
-    createNode(ht, "4", "doge");
-    createNode(ht, "5", "pyro");
-    createNode(ht, "6", "joost");
-    createNode(ht, "7", "kalix");
+    ht_set(ht, "1", "em");
+    ht_set(ht, "2", "russian");
+    ht_set(ht, "3", "pizza");
+    ht_set(ht, "4", "doge");
+    ht_set(ht, "5", "pyro");
+    ht_set(ht, "6", "joost");
+    ht_set(ht, "7", "kalix");
 
     ht_dump(ht);
 
     fclose(file);
-    //freeHashTable(ht);
+    freeHashTable(ht);
 
     return 0;
 }
