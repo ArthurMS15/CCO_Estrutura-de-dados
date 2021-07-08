@@ -17,14 +17,14 @@ typedef struct {
 } ht;
 //hash tabel itself, array of pointers to an entry
 
-void freeHashTable(ht *hashtable);
-void destroy(node* node);
-void createNode(ht *hashtable, const char *key, const char *value);
-void ht_dump(ht *hashtable);
-node *ht_get(ht *hashtable, const char *key);
-node *ht_pair(const char *key, const char *value);
-unsigned int hash(char* str);
 ht *ht_create(void);
+unsigned int hash(char* str);
+node *ht_pair(const char *key, const char *value);
+node *ht_get(ht *hashtable, const char *key);
+void ht_dump(ht *hashtable);
+void createNode(ht *hashtable, const char *key, const char *value);
+void destroy(node* node);
+void freeHashTable(ht *hashtable);
 
 int main(){
     ht *ht = ht_create();
@@ -39,12 +39,15 @@ int main(){
 
     //char nome[100];
     //while(fgets(nome, 100, file) != NULL){
-    //    printf("%s", nome);
-    //    int aux = create(nome);
-    //    //printf("%d", aux);
+    //    createNode(ht, "1", nome);
     //}
+    char nomer="teste";
+    createNode(ht, "1", nomer);
+
+    ht_dump(ht);
 
     fclose(file);
+    freeHashTable(ht);
 
     return 0;
 }
