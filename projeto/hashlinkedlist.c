@@ -43,13 +43,13 @@ int main(){
         createNode(ht, "1", nome);
     }*/
 
-    ht_set(ht, "1", "em");
-    ht_set(ht, "2", "russian");
-    ht_set(ht, "3", "pizza");
-    ht_set(ht, "4", "doge");
-    ht_set(ht, "5", "pyro");
-    ht_set(ht, "6", "joost");
-    ht_set(ht, "7", "kalix");
+    ht_set(ht, "1", "1");
+    ht_set(ht, "2", "2");
+    ht_set(ht, "3", "3");
+    ht_set(ht, "4", "4");
+    ht_set(ht, "5", "5");
+    ht_set(ht, "6", "6");
+    ht_set(ht, "7", "7");
 
     ht_dump(ht);
 
@@ -193,4 +193,5 @@ void freeHashTable(ht_t *hashtable){
             destroy(node);
         }
     }   
+    printf("teste");
 }
