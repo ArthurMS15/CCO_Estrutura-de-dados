@@ -37,12 +37,11 @@ int main(){
     }
     //iniciando file
 
-    //char nome[100];
-    //while(fgets(nome, 100, file) != NULL){
-    //    createNode(ht, "1", nome);
-    //}
-    char nomer="teste";
-    createNode(ht, "1", nomer);
+    /*char nome[100];
+    while(fgets(nome, 100, file) != NULL){
+        printf("%s\n", nome);
+        createNode(ht, "1", nome);
+    }*/
 
     ht_dump(ht);
 
