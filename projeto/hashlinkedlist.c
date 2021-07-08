@@ -1,15 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define M 26
 
 typedef struct node {
-    char* name;
-    struct node* next;
-    struct node* prev;
+    char* key;
+    char* value;
+    struct node* next; // colisão
+    struct node* prev; 
 } node;
+// 1 entry in the hash table, a key of value at a pointer to another entry
 
-node* hashtable[M];
+typedef struct {
+    node **entries;
+} ht;
+//hash tabel itself, array of pointers to an entry
 
 unsigned int hash(char*);
 unsigned int create(char*);
@@ -17,9 +23,7 @@ void destroy(node*);
 int find(char*);
 
 int main(){
-    for (int i = 0; i < M; i++){
-        hashtable[i] = NULL;
-    }
+    ht *ht = ht_create();
     //setando ponteiros
     FILE *file = fopen("teste.txt", "r");
 
@@ -36,45 +40,104 @@ int main(){
         //printf("%d", aux);
     }
 
-    fprintf(stdout, "%s\n", hashtable[23]->name);
-
     fclose(file);
 
-    for (int i = 0; i < M; i++){
-        if (hashtable[i] != NULL){
-            destroy(hashtable[i]);
-        }
-    }
-    //free no hashtable
     return 0;
 }
 
-unsigned int create(char* name){
-    int n = hash(name);
-    node* nnode = malloc(sizeof(node));
-    if(nnode == NULL){
-        exit(1);
-    } else {
-        nnode->name = name;
-        nnode->next = hashtable[n];
-        hashtable[n] = nnode;
-        //printf("%s", hashtable[23]->name);
-    }
-    return n;
+ht *ht_create(void){
+    ht *hashtable = malloc(sizeof(ht)*1); //ponteiro para a hashtable
+
+    hashtable->entries = malloc(sizeof(node*)*M); //x numbers of pointers to an entry/node (26 ponteiros, baseado no M)
+
+    for(int i=0;i<M;++i){
+        hashtable->entries[i] = NULL;
+    } //inicializando os ponteiros
+    return hashtable;
 }
 
 unsigned int hash(char* str){
-    //int sum=0;
-    //for(int i=0; str[i] != '\0'; i++){
-    //    sum += str[i];
-    //}
-    //return sum % M;
     int acumulador=0;
     for(int i=0; i < strlen(str); i++){
-        int aux = str[i];
-        acumulador = (31 * acumulador + str[i]) % M;
+        acumulador = (31 * acumulador + str[i]);
     }
+    acumulador = acumulador % M;
+    //valor é maior que 0 e menor que M;
     return acumulador;
+}
+
+node *ht_pair(const char *key, const char *value){
+    node *node = malloc(sizeof(node) * 1);
+    node->key = malloc(sizeof(key) + 1);
+    node->value = malloc(sizeof(value) + 1);
+
+    strcpy(node->key, key);
+    strcpy(node->value, value);
+
+    node->next=NULL;
+
+    return node;
+}
+
+node *ht_get(ht *hashtable, const char *key){
+    unsigned int slot = hash(key);
+    node *node = hashtable->entries[slot];
+
+    if(node==NULL){
+        return NULL;
+    }
+
+    while(node != NULL){
+        if(syrcmp(node->key, key) == 0){
+            return node->value;
+        } 
+        node = node->next;
+    }
+
+    return NULL;
+}
+
+void ht_dump(ht *hashtable){
+    for(int i=0;i<M;++i){
+        node *node = hashtable->entries[i];
+
+        if(node==NULL){
+            continue;
+        }
+        printf("slot[%4d]: ", i);
+        for(;;){
+            printf("%s=%s ", node->key, node->value);
+
+            if(node->next==NULL){
+                break;
+            }
+            node = node->next;
+        }
+        printf("\n");
+    }
+}
+
+void createNode(ht *hashtable, const char *key, const char *value){
+    unsigned int slot = hash(key);
+    node *node = hashtable->entries[slot];
+    if(node == NULL){
+        hashtable->entries[slot] = ht_pair(key, value);
+        return;
+    }
+
+    while (node != NULL){
+        if(strcmp(node->key, key) == 0){
+            free(node->value);
+            node->value = malloc(strlen(value) + 1);
+            strcpy(node->value, value);
+            return;
+        }
+
+        node->prev = node;
+        node = node->prev->next;
+    }
+
+    node->prev->next = ht_pair(key, value);
 }
 
 void destroy(node* node){
@@ -87,14 +150,14 @@ void destroy(node* node){
     return;
 }
 
-int find(char* name){
-    int n = hash(name);
-    if(hashtable[n] == NULL){
-        for(node* aux=hashtable[n]; aux != NULL; aux=aux->next){
-            if(aux->name == name){
-                return 1;
-            }
+void freeHashTable(ht *hashtable){
+    for(int i=0;i<M;++i){
+        node *node = hashtable->entries[i];
+
+        if(node==NULL){
+            continue;
+        } else {
+            destroy(node);
         }
-    }
-    return 0;
+    }   
 }
