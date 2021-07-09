@@ -40,7 +40,7 @@ int main(){
     char *nome[100];
     while(fgets(nome, 100, file) != NULL){
         printf("%s\n", nome);
-        ht_set(ht, /*cactere*/, nome);
+        ht_set(ht, "1", nome);
     }
 
     //char *teste="1"; 
