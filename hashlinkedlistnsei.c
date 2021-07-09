@@ -18,7 +18,7 @@ typedef struct {
 //hash tabel itself, array of pointers to an entry
 
 ht_t *ht_create(void);
-unsigned int hash(int, char*);
+unsigned int hash(int, const char*);
 void ht_set(ht_t *, int, const char *);
 entry_t *ht_pair(int, const char *);
 char *ht_get(ht_t *, int, const char *);
@@ -86,7 +86,7 @@ unsigned int quantAlgarismos(int key){
     return count;
 }
 
-unsigned int hash(int key, char *valuechar){
+unsigned int hash(int key, const char *valuechar){
     unsigned long int value = 0;
     unsigned int i=0;
     unsigned int key_len = quantAlgarismos(key);
