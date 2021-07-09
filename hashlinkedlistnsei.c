@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define M 26
+#define M 29
 
 typedef struct entry_t {
     int key;
@@ -18,11 +18,12 @@ typedef struct {
 //hash tabel itself, array of pointers to an entry
 
 ht_t *ht_create(void);
-unsigned int hash(int);
+unsigned int hash(int, char*);
 void ht_set(ht_t *, int, const char *);
 entry_t *ht_pair(int, const char *);
-char *ht_get(ht_t *, int);
+char *ht_get(ht_t *, int, const char *);
 void ht_dump(ht_t *);
+void ht_dumpslot1(ht_t *);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 
@@ -54,7 +55,7 @@ int main(){
     //ht_set(ht, "7", "7");
     //se tiver chave igual um é substituído por outro
 
-    ht_dump(ht);
+    ht_dumpslot1(ht);
 
     fclose(file);
     freeHashTable(ht);
@@ -85,13 +86,13 @@ unsigned int quantAlgarismos(int key){
     return count;
 }
 
-unsigned int hash(int key){
-    unsigned long int value =0 ;
+unsigned int hash(int key, char *valuechar){
+    unsigned long int value = 0;
     unsigned int i=0;
     unsigned int key_len = quantAlgarismos(key);
 
-    for(; i < key_len; ++i){
-        value = 31 * value + key;
+    for(; i < strlen(valuechar); ++i){
+        value = 31 * value + valuechar[i];
     }
 
     value = value % M;
@@ -100,7 +101,7 @@ unsigned int hash(int key){
 }
 
 void ht_set(ht_t *hashtable, int key, const char *value){
-    unsigned int bucket = hash(key);
+    unsigned int bucket = hash(key, value);
 
     entry_t *entry = hashtable->entries[bucket];
 
@@ -141,8 +142,8 @@ entry_t *ht_pair(int key, const char *value){
     return entry;
 }
 
-char *ht_get(ht_t *hashtable, int key){
-    unsigned int slot = hash(key);
+char *ht_get(ht_t *hashtable, int key, const char *value){
+    unsigned int slot = hash(key, value);
 
     entry_t *entry = hashtable->entries[slot];
 
@@ -182,6 +183,34 @@ void ht_dump(ht_t *hashtable){
         printf("\n");
 
     }
+}
+
+void ht_dumpslot1(ht_t *hashtable){
+    int cont=0;
+    for(int i=0;i<M;++i){
+        entry_t *entry = hashtable->entries[i];
+
+        if(entry == NULL){
+            continue;
+        }
+
+        if(i==1){
+            for(;;){
+                cont++;
+                printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
+
+                if(entry->next==NULL){
+                    break;
+                }
+
+                entry = entry->next;
+            }
+
+        printf("\n");
+        }
+
+    }
+    printf("TEM: %d nomes", cont);
 }
 
 void destroy(entry_t* node){
