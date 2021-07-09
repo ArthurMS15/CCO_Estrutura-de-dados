@@ -37,20 +37,21 @@ int main(){
     }
     //iniciando file
 
-    /*char *nome[100];
+    char *nome[100];
     while(fgets(nome, 100, file) != NULL){
         printf("%s\n", nome);
-        ht_set(ht, "1", nome);
-    }*/
+        ht_set(ht, /*cactere*/, nome);
+    }
 
-    char *teste="1"; 
-    ht_set(ht, "1", teste);
-    ht_set(ht, "1", "2");
+    //char *teste="1"; 
+    //ht_set(ht, "1", teste);
+    //ht_set(ht, "1", "2");
     //ht_set(ht, "3", "3");
     //ht_set(ht, "4", "4");
     //ht_set(ht, "5", "5");
     //ht_set(ht, "6", "6");
     //ht_set(ht, "7", "7");
+    //se tiver chave igual um é substituído por outro
 
     ht_dump(ht);
 
