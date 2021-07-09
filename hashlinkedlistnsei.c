@@ -44,9 +44,9 @@ int main(){
         ht_set(ht, aux, nome);
     }
 
-    /*char *teste="1"; 
-    ht_set(ht, 1, teste);
-    ht_set(ht, 2, "2");*/
+    //char *teste="1"; 
+    //ht_set(ht, "1", teste);
+    //ht_set(ht, "1", "2");
     //ht_set(ht, "3", "3");
     //ht_set(ht, "4", "4");
     //ht_set(ht, "5", "5");
@@ -76,10 +76,19 @@ ht_t *ht_create(void){
     return hashtable;
 }
 
+unsigned int quantAlgarismos(int key){
+    int count = 0;
+    while(key != 0) {
+       key = key / 10;
+       count++;
+    }
+    return count;
+}
+
 unsigned int hash(int key){
-    unsigned long int value = 0;
+    unsigned long int value =0 ;
     unsigned int i=0;
-    unsigned int key_len = 1; //cuidar
+    unsigned int key_len = quantAlgarismos(key);
 
     for(; i < key_len; ++i){
         value = 31 * value + key;
@@ -104,7 +113,7 @@ void ht_set(ht_t *hashtable, int key, const char *value){
 
     while (entry != NULL){
 
-        if(entry->key == key){
+        if(entry->key==key){
             free(entry->value);
             entry->value = malloc(strlen(value) + 1);
             strcpy(entry->value, value);
@@ -121,6 +130,7 @@ void ht_set(ht_t *hashtable, int key, const char *value){
 
 entry_t *ht_pair(int key, const char *value){
     entry_t *entry = malloc(sizeof(entry) * 1);
+
     entry->value = malloc(strlen(value) + 1);
 
     entry->key=key;
