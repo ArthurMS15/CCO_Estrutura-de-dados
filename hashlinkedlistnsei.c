@@ -23,7 +23,7 @@ void ht_set(ht_t *, int, const char *);
 entry_t *ht_pair(int, const char *);
 char *ht_get(ht_t *, int, const char *);
 void ht_dump(ht_t *);
-void ht_dumpslot1(ht_t *);
+void ht_dumpslot(ht_t *, int);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 
@@ -55,7 +55,7 @@ int main(){
     //ht_set(ht, "7", "7");
     //se tiver chave igual um é substituído por outro
 
-    ht_dumpslot1(ht);
+    ht_dumpslot(ht, 24);
 
     fclose(file);
     freeHashTable(ht);
@@ -185,7 +185,7 @@ void ht_dump(ht_t *hashtable){
     }
 }
 
-void ht_dumpslot1(ht_t *hashtable){
+void ht_dumpslot(ht_t *hashtable, int slot){
     int cont=0;
     for(int i=0;i<M;++i){
         entry_t *entry = hashtable->entries[i];
@@ -194,7 +194,7 @@ void ht_dumpslot1(ht_t *hashtable){
             continue;
         }
 
-        if(i==1){
+        if(i==slot){
             for(;;){
                 cont++;
                 printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
