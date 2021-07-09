@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define M 3
+#define M 26
 
 typedef struct entry_t {
-    char *key;
+    int key;
     char *value;
     struct entry_t* next; // colisão
 } entry_t;
@@ -18,10 +18,10 @@ typedef struct {
 //hash tabel itself, array of pointers to an entry
 
 ht_t *ht_create(void);
-unsigned int hash(const char *);
-void ht_set(ht_t *, const char *, const char *);
-entry_t *ht_pair(const char *, const char *);
-char *ht_get(ht_t *, const char *);
+unsigned int hash(int);
+void ht_set(ht_t *, int, const char *);
+entry_t *ht_pair(int, const char *);
+char *ht_get(ht_t *, int);
 void ht_dump(ht_t *);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
@@ -29,7 +29,7 @@ void freeHashTable(ht_t *);
 int main(){
     ht_t *ht = ht_create();
     //setando ponteiros
-    FILE *file = fopen("teste.txt", "r");
+    FILE *file = fopen("nomes.txt", "r");
 
     if(file == NULL){
         printf("Não foi possivel ler os nomes\n");
@@ -37,15 +37,16 @@ int main(){
     }
     //iniciando file
 
-    /*char *nome[100];
+    char *nome[100];
+    int aux=0;
     while(fgets(nome, 100, file) != NULL){
-        printf("%s\n", nome);
-        ht_set(ht, "1", nome);
-    }*/
+        aux++;
+        ht_set(ht, aux, nome);
+    }
 
-    //char *teste="1"; 
-    //ht_set(ht, "1", teste);
-    //ht_set(ht, "1", "2");
+    /*char *teste="1"; 
+    ht_set(ht, 1, teste);
+    ht_set(ht, 2, "2");*/
     //ht_set(ht, "3", "3");
     //ht_set(ht, "4", "4");
     //ht_set(ht, "5", "5");
@@ -75,13 +76,13 @@ ht_t *ht_create(void){
     return hashtable;
 }
 
-unsigned int hash(const char* key){
-    unsigned long int value =0 ;
+unsigned int hash(int key){
+    unsigned long int value = 0;
     unsigned int i=0;
-    unsigned int key_len = strlen(key);
+    unsigned int key_len = 1; //cuidar
 
     for(; i < key_len; ++i){
-        value = 31 * value + key[i];
+        value = 31 * value + key;
     }
 
     value = value % M;
@@ -89,7 +90,7 @@ unsigned int hash(const char* key){
     return value;
 }
 
-void ht_set(ht_t *hashtable, const char *key, const char *value){
+void ht_set(ht_t *hashtable, int key, const char *value){
     unsigned int bucket = hash(key);
 
     entry_t *entry = hashtable->entries[bucket];
@@ -103,7 +104,7 @@ void ht_set(ht_t *hashtable, const char *key, const char *value){
 
     while (entry != NULL){
 
-        if(strcmp(entry->key, key) == 0){
+        if(entry->key == key){
             free(entry->value);
             entry->value = malloc(strlen(value) + 1);
             strcpy(entry->value, value);
@@ -118,12 +119,11 @@ void ht_set(ht_t *hashtable, const char *key, const char *value){
 }
 
 
-entry_t *ht_pair(const char *key, const char *value){
+entry_t *ht_pair(int key, const char *value){
     entry_t *entry = malloc(sizeof(entry) * 1);
-    entry->key = malloc(strlen(key) + 1);
     entry->value = malloc(strlen(value) + 1);
 
-    strcpy(entry->key, key);
+    entry->key=key;
     strcpy(entry->value, value);
 
     entry->next=NULL;
@@ -131,7 +131,7 @@ entry_t *ht_pair(const char *key, const char *value){
     return entry;
 }
 
-char *ht_get(ht_t *hashtable, const char *key){
+char *ht_get(ht_t *hashtable, int key){
     unsigned int slot = hash(key);
 
     entry_t *entry = hashtable->entries[slot];
@@ -141,7 +141,7 @@ char *ht_get(ht_t *hashtable, const char *key){
     }
 
     while(entry != NULL){
-        if(strcmp(entry->key, key) == 0){
+        if(entry->key == key){
             return entry->value;
         } 
         entry = entry->next;
@@ -157,10 +157,9 @@ void ht_dump(ht_t *hashtable){
         if(entry == NULL){
             continue;
         }
-        printf("slot[%4d]: ", i);
 
         for(;;){
-            printf("%s=%s ", entry->key, entry->value);
+            printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
 
             if(entry->next==NULL){
                 break;
