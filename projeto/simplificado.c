@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define M 3
+#define M 29
 
 typedef struct entry_t {
     int key;
@@ -32,7 +32,7 @@ void quicksort(entry_t*, entry_t*);
 int main(){
     ht_t *ht = ht_create();
     //setando ponteiros
-    FILE *file = fopen("testemenor.txt", "r");
+    FILE *file = fopen("nomes.txt", "r");
 
     if(file == NULL){
         printf("Não foi possivel ler os nomes\n");
@@ -47,9 +47,9 @@ int main(){
         ht_set(ht, aux, nome);
     }
 
-    ht_dumpquicksort(ht);
+    ht_dumpslotquicksort(ht, 0);
     printf("quicksort feito\n\n");
-    ht_dumpquicksort(ht);
+    ht_dumpslotquicksort(ht, 0);
 
     fclose(file);
     freeHashTable(ht);
