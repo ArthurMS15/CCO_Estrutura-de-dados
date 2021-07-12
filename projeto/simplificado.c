@@ -71,19 +71,9 @@ ht_t *ht_create(void){
     return hashtable;
 }
 
-unsigned int quantAlgarismos(int key){
-    int count = 0;
-    while(key != 0) {
-       key = key / 10;
-       count++;
-    }
-    return count;
-}
-
 unsigned int hash(int key, const char *valuechar){
     unsigned long int value = 0;
     unsigned int i=0;
-    unsigned int key_len = quantAlgarismos(key);
 
     for(; i < strlen(valuechar); ++i){
         value = 31 * value + valuechar[i];
@@ -125,7 +115,7 @@ void ht_set(ht_t *hashtable, int key, const char *value){
 
 entry_t *ht_pair(int key, const char *value){
     entry_t *entry = malloc(sizeof(entry) * 1);
-
+    entry->key = malloc(sizeof(key) * 1);
     entry->value = malloc(strlen(value) + 1);
 
     entry->key=key;
@@ -184,11 +174,11 @@ void ht_dumpquicksort(ht_t *hashtable){
               tail=entry;
             }
         }
-        printf("\nHEAD quick: %s\n", head->value);
+        printf("\nHEAD: %s\n", head->value);
         if(cont<=1){
           tail=head;
         }
-        printf("TAIL quick: %s\n", tail->value);
+        printf("TAIL: %s\n", tail->value);
         printf("TEM: %d nomes\n", cont);
         cont=0;
         printf("\n");
@@ -232,8 +222,8 @@ void ht_dumpslotquicksort(ht_t *hashtable, int slot){
       }
     }
     quicksort(head, tail);
-    printf("HEAD quick: %s\n", head->value);
-    printf("TAIL quick: %s\n", tail->value);
+    printf("HEAD: %s\n", head->value);
+    printf("TAIL: %s\n", tail->value);
     printf("TEM: %d nomes\n", cont);
 }
 
@@ -289,4 +279,3 @@ void quicksort(entry_t* start, entry_t* end){
     quicksort(i->next, end);
   }
 }
-// quicksort head, tail da lista; PROBLEMA NO I 
