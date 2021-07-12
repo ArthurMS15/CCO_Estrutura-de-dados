@@ -75,6 +75,9 @@ Concluindo há os métodos atrelados ao quicksort sendo eles "quicksort" e o "sw
 
 ![quicksort](https://user-images.githubusercontent.com/66339390/125352439-a4a64a80-e337-11eb-99f5-eaf132e8e11c.png)
 
+No main haverá então a criação de um ponteiro file, responsável por conter os nomes, e então setar eles na tabela hash:
+
+![main](https://user-images.githubusercontent.com/66339390/125353018-65c4c480-e338-11eb-92d2-eb4bb1583fa6.png)
 
 # Referências
 
