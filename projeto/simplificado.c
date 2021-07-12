@@ -61,7 +61,7 @@ ht_t *ht_create(void){
     ht_t *hashtable = malloc(sizeof(ht_t) * 1); //ponteiro para a hashtable
 
     hashtable->entries = malloc(sizeof(entry_t*) * M); 
-    //x numbers of pointers to an entry/node (26 ponteiros, baseado no M)
+    //x numbers of pointers to an entry/node (29 ponteiros, baseado no M)
 
     int i = 0;
     for(; i < M; ++i){
