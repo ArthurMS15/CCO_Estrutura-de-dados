@@ -14,13 +14,66 @@ Assim como o problema demonstra pelas imagens e textos, foi decidido começar pe
   1. O tratamento de colisão deve ser implementado a partir do momento em que um novo nome acaba ocupando e substituindo o mesmo local onde havia um nome anterior (dados diferentes na mesma posição);
   2. A implementação do tratamento pode ser feita através da construção da struct dos nomes, onde a mesma apresentará um ponteiro "* next", levando então para outro nome e assim em diante;
   3. O máximo que se conseguiu alcançar é um hash que apresenta um resultado aproximadamente uniforme, entretanto não é perfeito como na teoria, na realidade todos os valores de cada chave do hash apresentam apenas um valor próximo um ao outro;
-  4. 
+  4. Histograma:
+![histograma](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/Histograma.png)   
+Como é possível notar os resultados aproximam-se bastante com o **maior sendo na chave 12: 3589, e o menor na chave 19: 3361.**
+
 4-Método de ordenação: quicksort;
 
 5-Usado a base dados com 100788 nomes;
 
 ## Construção do algoritmo e resultados:
 
+Primeiro há definição da quantidade de chaves que a hashtable terá, sendo neste caso: 29, o motivo por trás é por 29 ser o número primo mais próximo de 26 (que é a quantidade de letras do alfabeto - feito por tentativa e erro).
+
+Logo em seguida há a construção de duas structs "entry_t" e "ht_t", uma representando o elemento da hash contendo a key (chave), o valor em char, e um ponteiro para uma nova struct "entry_t" sendo este: "next" (evitando colisões nesse caso, porque então ele passa pra proxima posição na hashtable) e do elemento anterior "prev".
+
+Já a struct "ht_t" é a própria hashtable, sendo praticamente um array de ponteiros para uma "entry_t".
+
+E logo posteriormente vem a prototipação.
+
+![code1](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/code1.png) 
+
+Explorando agora os métodos, há o método responsável por criar a a hashtable "ht_t * ht_create(void)", que no caso irá retornar a hashtable criada. 
+
+Ele faz alocação dinâmica de memória da hashtable em si (1 ponteiro só), e também das entradas (elementos) que serão colocados na hashtable baseando-se no tamanho das chaves para o cálculo (criando neste caso então 29 ponteiros), além disso também setará todas as entradas de cada chave para valores nulos:
+
+![htcreate](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/htcreate.png) 
+
+Outro método agora é a função modular da hashtable onde retorna um valor sempre positivo e inteiro que fica entre zero e M-1, através do "value = value % M", garantido isso.
+
+Então ele passa calculando e acumulando o valor conseguido de cada caracter do nome até seu fim:
+
+![funcaomodularhash](https://user-images.githubusercontent.com/66339390/125346157-c996bf80-e32f-11eb-8f6e-3e469d98282d.png)
+
+A função "ht_pair" é responsável por alocar memória na própria entry, alocando memória para todos seus valores, setando o next e prev para null e por fim retornando a entry inicializada:
+
+![htpair](https://user-images.githubusercontent.com/66339390/125349055-69098180-e333-11eb-8e17-9df099330124.png)
+
+Indo para o método "ht_set", o mesmo começa fazendo o hash da key para saber em qual slot será colocado, quando já sabemos do slot, nós encontramos uma entry para aquele slot.
+
+Vendo que todos os ponteiros inicializados são NULL. Começando então sendo null, é inserido um novo key e value (par) naquele slot. 
+
+Mas se a entry não for null, ou já existe uma chave e devemos atualizar o valor, ou aconteceu uma colisão (duas chaves fazendo hash no mesmo slot). E isso é corrigido da seguinte maneira: é passado por cada uma das entries até que se chegue no fim, ou até que tenha achado uma chave correspondente onde então é atualizado o valor. Chegando ao fim da lista é adicionado uma nova entry
+
+![htset](https://user-images.githubusercontent.com/66339390/125347240-0f07bc80-e331-11eb-8569-fe43bdccebbd.png)
+
+Na função "ht_get" é procurado um valor através da chave. Onde é realizado uma hash da chave, e então é procurado um entry daquele slot criado, se a entry for null significa que a chave não foi encontrada, e se a entry não for null, é procurado as entries daquele slot em específico para ver se as key se igualam.
+
+![htget](https://user-images.githubusercontent.com/66339390/125349621-25634780-e334-11eb-898e-d06eb4ea8eae.png)
+
+Indo para outro método envolvendo a hashtable temos "htdumpquicksort" e "htdumpslotquicksort" (contendo poucas diferenças), que servirão para printar a hashtable inteira ou em um slot em específico respectivamente sem a ordenção e então aplicar o quicksort no final dela para então poder ser printada novamente de forma ordenada.
+Além de identificar o head e o tail do slot da hashtable.
+
+![htdump](https://user-images.githubusercontent.com/66339390/125350766-9e16d380-e335-11eb-8d53-a60ee351bb45.png)
+
+Por fim da hash table é feito o método "destroy" e o "freeHashTable" que realizarão o free de toda a hash table conjuntamente com todas as entires que tiverem nela de forma recursiva:
+
+![free](https://user-images.githubusercontent.com/66339390/125351033-f3eb7b80-e335-11eb-91c6-532e7ae0495d.png)
+
+Concluindo há os métodos atrelados ao quicksort sendo eles "quicksort" e o "swap" responsáveis pela ordenação dos elementos encontrados em cada lista da hashtable
+
+![quicksort](https://user-images.githubusercontent.com/66339390/125352439-a4a64a80-e337-11eb-99f5-eaf132e8e11c.png)
 
 
 # Referências
