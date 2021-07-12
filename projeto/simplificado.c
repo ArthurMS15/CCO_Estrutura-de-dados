@@ -7,7 +7,7 @@
 typedef struct entry_t {
     int key;
     char *value;
-    struct entry_t* next; // colisão
+    struct entry_t* next; // colision
     struct entry_t* prev;
 } entry_t;
 // 1 entry in the hash table, a key of value at a pointer to another entry
