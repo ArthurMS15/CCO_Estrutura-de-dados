@@ -22,8 +22,8 @@ unsigned int hash(int, const char *);
 void ht_set(ht_t *, int, const char *);
 entry_t *ht_pair(int, const char *);
 char *ht_get(ht_t *, int, const char *);
-void ht_dumpquicksort(ht_t *);
-void ht_dumpslotquicksort(ht_t *, int);
+void ht_dumpquicksort(ht_t *, int);
+void ht_dumpslotquicksort(ht_t *, int, int);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 void swap(entry_t*, entry_t*);
@@ -47,9 +47,9 @@ int main(){
         ht_set(ht, aux, nome);
     }
 
-    ht_dumpslotquicksort(ht, 0);
+    ht_dumpquicksort(ht, 1);
     printf("quicksort feito\n\n");
-    ht_dumpslotquicksort(ht, 0);
+    ht_dumpquicksort(ht, 0);
 
     fclose(file);
     freeHashTable(ht);
@@ -115,7 +115,7 @@ void ht_set(ht_t *hashtable, int key, const char *value){
 
 entry_t *ht_pair(int key, const char *value){
     entry_t *entry = malloc(sizeof(entry) * 1);
-    entry->key = malloc(sizeof(key) * 1);
+    entry->key = (int)malloc(sizeof(key) * 1);
     entry->value = malloc(strlen(value) + 1);
 
     entry->key=key;
@@ -146,7 +146,7 @@ char *ht_get(ht_t *hashtable, int key, const char *value){
     return NULL;
 }
 
-void ht_dumpquicksort(ht_t *hashtable){
+void ht_dumpquicksort(ht_t *hashtable, int confirm){
   int cont=0;
     entry_t *head;
     entry_t *tail;
@@ -182,11 +182,13 @@ void ht_dumpquicksort(ht_t *hashtable){
         printf("TEM: %d nomes\n", cont);
         cont=0;
         printf("\n");
-        quicksort(head, tail);
+        if(confirm==1){
+            quicksort(head, tail);
+        }
     }
 }
 
-void ht_dumpslotquicksort(ht_t *hashtable, int slot){
+void ht_dumpslotquicksort(ht_t *hashtable, int slot, int confirm){
     int cont=0;
     entry_t *head;
     entry_t *tail;
@@ -221,7 +223,9 @@ void ht_dumpslotquicksort(ht_t *hashtable, int slot){
         printf("\n");
       }
     }
-    quicksort(head, tail);
+    if(confirm==1){
+        quicksort(head, tail);
+    }
     printf("HEAD: %s\n", head->value);
     printf("TAIL: %s\n", tail->value);
     printf("TEM: %d nomes\n", cont);
@@ -264,7 +268,6 @@ void quicksort(entry_t* start, entry_t* end){
     // Percorre a lista do início ao fim
     for (entry_t *j = start; j != end; j = j->next){
       // Se o valor for menor que o pivô, trocar com o i
-      
       if (strcmp(j->value, pivo->value) <= 0){
         i = (i == NULL ? start : i->next);
         swap(i, j);
