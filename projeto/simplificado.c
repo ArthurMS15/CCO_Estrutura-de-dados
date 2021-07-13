@@ -12,7 +12,11 @@ typedef struct entry_t {
 } entry_t;
 // 1 entry in the hash table, a key of value at a pointer to another entry
 
-//list
+typedef struct lista{
+    struct entry *head;
+    struct entry *tail;
+    int size;
+} lista;
 
 typedef struct ht_t {
     entry_t **entries;
@@ -25,7 +29,7 @@ unsigned int hash(const char *);
 void ht_set(ht_t *, int, const char *);
 entry_t *ht_pair(int, const char *);
 char *ht_get(ht_t *, int, const char *);
-void ht_dumpquicksort(ht_t *, int);
+void ht_dumpquicksort(ht_t *);
 void printHt(ht_t *);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
@@ -34,13 +38,10 @@ void quicksort(entry_t*, entry_t*);
 
 int main(){
     ht_t *ht = ht_create();
-    //setando ponteiros
+    //seting pointers
     createandsetFile(ht);
-    //iniciando file
-
-    //ht_dumpslotquicksort(ht, 1, 1);
-    //printf("quicksort feito\n\n");
-    //ht_dumpslotquicksort(ht, 1, 0);
+    //initializing file
+    ht_dumpquicksort(ht);
     printHt(ht);
 
     freeHashTable(ht);
@@ -148,8 +149,8 @@ char *ht_get(ht_t *hashtable, int key, const char *value){
     return NULL;
 }
 
-void ht_dumpquicksort(ht_t *hashtable, int confirm){
-  int cont=0;
+void ht_dumpquicksort(ht_t *hashtable){
+    int cont=0;
     entry_t *head;
     entry_t *tail;
     for(int i=0;i<M;++i){
@@ -160,9 +161,6 @@ void ht_dumpquicksort(ht_t *hashtable, int confirm){
         }
         
         for(;;){
-            cont++;
-            printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
-
             if(cont==1){
               head=entry;
             }
@@ -176,17 +174,10 @@ void ht_dumpquicksort(ht_t *hashtable, int confirm){
               tail=entry;
             }
         }
-        printf("\nHEAD: %s\n", head->value);
         if(cont<=1){
           tail=head;
         }
-        printf("TAIL: %s\n", tail->value);
-        printf("TEM: %d nomes\n", cont);
-        cont=0;
-        printf("\n");
-        if(confirm==1){
-            quicksort(head, tail);
-        }
+        quicksort(head, tail);
     }
 }
 
@@ -215,7 +206,6 @@ void printHt(ht_t *hashtable){
         contslot=0;
     } 
     printf("Number of entries in all hashtable: %d\n", contall);
-
 }
 
 void destroy(entry_t* node){
