@@ -38,7 +38,7 @@ Explorando agora os métodos, há o método responsável por criar a a hashtable
 
 Ele faz alocação dinâmica de memória da hashtable em si (1 ponteiro só), e também das entradas (elementos) que serão colocados na hashtable baseando-se no tamanho das chaves para o cálculo (criando neste caso então 29 ponteiros), além disso também setará todas as entradas de cada chave para valores nulos:
 
-![htcreate](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/htcreate.png) 
+![image](https://user-images.githubusercontent.com/66339390/125383927-8c055700-e36e-11eb-9dc1-fc92999690ea.png)
 
 Outro método agora é a função modular da hashtable onde retorna um valor sempre positivo e inteiro que fica entre zero e M-1, através do "value = value % M", garantido isso.
 
@@ -77,7 +77,7 @@ O método do quicksort pegará de referência o head e o tail de um determinado 
 
 É criado variáveis temporárias necessárias para o funcionamento do mesmo "i = head->prev", "pivo = tail", "temp" e "j = head".
 
-Passando então por toda a lista do head ao tail ele vai comparando os tamanhos das strings
+Passando então por toda a lista do head ao tail ele vai comparando os tamanhos das strings e se o valor encontrado for menor que o pivo é trocado com a variável i
 
 ![quicksort](https://user-images.githubusercontent.com/66339390/125352439-a4a64a80-e337-11eb-99f5-eaf132e8e11c.png)
 
