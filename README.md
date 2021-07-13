@@ -32,7 +32,7 @@ Já a struct "ht_t" é a própria hashtable, sendo praticamente um array de pont
 
 E logo posteriormente vem a prototipação.
 
-![code1](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/code1.png) 
+![struct](https://user-images.githubusercontent.com/66339390/125383790-61b39980-e36e-11eb-9c2d-8b487ae5e457.png)
 
 Explorando agora os métodos, há o método responsável por criar a a hashtable "ht_t * ht_create(void)", que no caso irá retornar a hashtable criada. 
 
@@ -71,7 +71,13 @@ Por fim da hash table é feito o método "destroy" e o "freeHashTable" que reali
 
 ![free](https://user-images.githubusercontent.com/66339390/125351033-f3eb7b80-e335-11eb-91c6-532e7ae0495d.png)
 
-Concluindo há os métodos atrelados ao quicksort sendo eles "quicksort" e o "swap" responsáveis pela ordenação dos elementos encontrados em cada lista da hashtable
+Concluindo há os métodos atrelados ao quicksort sendo eles "quicksort" e o "swap" responsáveis pela ordenação dos elementos encontrados em cada lista da hashtable.
+
+O método do quicksort pegará de referência o head e o tail de um determinado slot da tabela hash e então começará o sort.
+
+É criado variáveis temporárias necessárias para o funcionamento do mesmo "i = head->prev", "pivo = tail", "temp" e "j = head".
+
+Passando então por toda a lista do head ao tail ele vai comparando os tamanhos das strings
 
 ![quicksort](https://user-images.githubusercontent.com/66339390/125352439-a4a64a80-e337-11eb-99f5-eaf132e8e11c.png)
 
