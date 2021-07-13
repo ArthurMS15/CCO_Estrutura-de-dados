@@ -11,12 +11,13 @@ Assim como o problema demonstra pelas imagens e textos, foi decidido começar pe
 2-Inserção, consulta, quantidade de elementos por chave, remoção, e outros;
 
 3:
-  1. O tratamento de colisão deve ser implementado a partir do momento em que um novo nome acaba ocupando e substituindo o mesmo local onde havia um nome anterior (dados diferentes na mesma posição);
-  2. A implementação do tratamento pode ser feita através da construção da struct dos nomes, onde a mesma apresentará um ponteiro "* next", levando então para outro nome e assim em diante;
+  1. O tratamento de colisão deve ser implementado a partir do momento em que duas chaves diferentes acabam apresentando o mesmo valor hash, sendo consequentemente levadas pra mesma posição na tabela hash;
+  2. A implementação do tratamento pode ser feita através da implementação de uma lista encadeada (onde a mesma não apresentará um limite de nomes que podem ser colocados, então através do ponteiro "* next" a mesma pode simplesmente colocar o outro nome como um next da posição onde ela inicialmente iria ocupar);
   3. O máximo que se conseguiu alcançar é um hash que apresenta um resultado aproximadamente uniforme, entretanto não é perfeito como na teoria, na realidade todos os valores de cada chave do hash apresentam apenas um valor próximo um ao outro;
   4. Histograma:
-![histograma](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/Histograma.png)   
+![image](https://user-images.githubusercontent.com/66339390/125474924-59164bcb-81b0-4a54-9458-9a67a1571ef9.png)
 Como é possível notar os resultados aproximam-se bastante com o **maior sendo na chave 12: 3589, e o menor na chave 19: 3361.**
+E com **média: 3475** (linha vermelha do histograma)
 
 4-Método de ordenação: quicksort;
 
