@@ -268,6 +268,7 @@ void quicksort(entry_t* start, entry_t* end){
     // Percorre a lista do início ao fim
     for (entry_t *j = start; j != end; j = j->next){
       // Se o valor for menor que o pivô, trocar com o i
+      
       if (strcmp(j->value, pivo->value) <= 0){
         i = (i == NULL ? start : i->next);
         swap(i, j);
