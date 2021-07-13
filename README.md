@@ -32,13 +32,13 @@ Já a struct "ht_t" é a própria hashtable, sendo praticamente um array de pont
 
 E logo posteriormente vem a prototipação.
 
-![code1](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/code1.png) 
+![struct](https://user-images.githubusercontent.com/66339390/125383790-61b39980-e36e-11eb-9c2d-8b487ae5e457.png)
 
 Explorando agora os métodos, há o método responsável por criar a a hashtable "ht_t * ht_create(void)", que no caso irá retornar a hashtable criada. 
 
 Ele faz alocação dinâmica de memória da hashtable em si (1 ponteiro só), e também das entradas (elementos) que serão colocados na hashtable baseando-se no tamanho das chaves para o cálculo (criando neste caso então 29 ponteiros), além disso também setará todas as entradas de cada chave para valores nulos:
 
-![htcreate](https://github.com/ArthurMS15/CCO_Estrutura-de-dados/blob/main/htcreate.png) 
+![image](https://user-images.githubusercontent.com/66339390/125383927-8c055700-e36e-11eb-9dc1-fc92999690ea.png)
 
 Outro método agora é a função modular da hashtable onde retorna um valor sempre positivo e inteiro que fica entre zero e M-1, através do "value = value % M", garantido isso.
 
@@ -71,7 +71,13 @@ Por fim da hash table é feito o método "destroy" e o "freeHashTable" que reali
 
 ![free](https://user-images.githubusercontent.com/66339390/125351033-f3eb7b80-e335-11eb-91c6-532e7ae0495d.png)
 
-Concluindo há os métodos atrelados ao quicksort sendo eles "quicksort" e o "swap" responsáveis pela ordenação dos elementos encontrados em cada lista da hashtable
+Concluindo há os métodos atrelados ao quicksort sendo eles "quicksort" e o "swap" responsáveis pela ordenação dos elementos encontrados em cada lista da hashtable.
+
+O método do quicksort pegará de referência o head e o tail de um determinado slot da tabela hash e então começará o sort.
+
+É criado variáveis temporárias necessárias para o funcionamento do mesmo "i = head->prev", "pivo = tail", "temp" e "j = head".
+
+Passando então por toda a lista do head ao tail ele vai comparando os tamanhos das strings e se o valor encontrado for menor que o pivo é trocado com a variável i
 
 ![quicksort](https://user-images.githubusercontent.com/66339390/125352439-a4a64a80-e337-11eb-99f5-eaf132e8e11c.png)
 
