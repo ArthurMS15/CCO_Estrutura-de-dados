@@ -7,23 +7,26 @@
 typedef struct entry_t {
     int key;
     char *value;
-    struct entry_t* next; // colision
+    struct entry_t* next;
     struct entry_t* prev;
 } entry_t;
 // 1 entry in the hash table, a key of value at a pointer to another entry
 
-typedef struct {
+//list
+
+typedef struct ht_t {
     entry_t **entries;
 } ht_t;
 //hash table itself, array of pointers to an entry
 
+void createandsetFile();
 ht_t *ht_create(void);
-unsigned int hash(int, const char *);
+unsigned int hash(const char *);
 void ht_set(ht_t *, int, const char *);
 entry_t *ht_pair(int, const char *);
 char *ht_get(ht_t *, int, const char *);
 void ht_dumpquicksort(ht_t *, int);
-void ht_dumpslotquicksort(ht_t *, int, int);
+void printHt(ht_t *);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 void swap(entry_t*, entry_t*);
@@ -32,29 +35,35 @@ void quicksort(entry_t*, entry_t*);
 int main(){
     ht_t *ht = ht_create();
     //setando ponteiros
+    createandsetFile(ht);
+    //iniciando file
+
+    //ht_dumpslotquicksort(ht, 1, 1);
+    //printf("quicksort feito\n\n");
+    //ht_dumpslotquicksort(ht, 1, 0);
+    printHt(ht);
+
+    freeHashTable(ht);
+
+    return 0;
+}
+
+void createandsetFile(ht_t *hashtable){
+
     FILE *file = fopen("nomes.txt", "r");
 
     if(file == NULL){
         printf("Não foi possivel ler os nomes\n");
-        exit(0);
+        return;
     }
-    //iniciando file
 
     char nome[100];
     int aux=0;
     while(fgets(nome, 100, file) != NULL){
         aux++;
-        ht_set(ht, aux, nome);
+        ht_set(hashtable, aux, nome);
     }
-
-    ht_dumpquicksort(ht, 1);
-    printf("quicksort feito\n\n");
-    ht_dumpquicksort(ht, 0);
-
     fclose(file);
-    freeHashTable(ht);
-
-    return 0;
 }
 
 ht_t *ht_create(void){
@@ -71,7 +80,7 @@ ht_t *ht_create(void){
     return hashtable;
 }
 
-unsigned int hash(int key, const char *valuechar){
+unsigned int hash(const char *valuechar){
     unsigned long int value = 0;
     unsigned int i=0;
 
@@ -85,7 +94,7 @@ unsigned int hash(int key, const char *valuechar){
 }
 
 void ht_set(ht_t *hashtable, int key, const char *value){
-    unsigned int bucket = hash(key, value);
+    unsigned int bucket = hash(value);
 
     entry_t *entry = hashtable->entries[bucket];
 
@@ -97,19 +106,12 @@ void ht_set(ht_t *hashtable, int key, const char *value){
     entry_t *aux;
 
     while (entry != NULL){
-
-        if(entry->key==key){
-            free(entry->value);
-            entry->value = malloc(strlen(value) + 1);
-            strcpy(entry->value, value);
-            return;
-        }
-
         aux = entry;
         entry = aux->next;
     }
 
     aux->next = ht_pair(key, value);
+    aux->prev = ht_pair(key, value);
 }
 
 
@@ -128,7 +130,7 @@ entry_t *ht_pair(int key, const char *value){
 }
 
 char *ht_get(ht_t *hashtable, int key, const char *value){
-    unsigned int slot = hash(key, value);
+    unsigned int slot = hash(value);
 
     entry_t *entry = hashtable->entries[slot];
 
@@ -188,47 +190,32 @@ void ht_dumpquicksort(ht_t *hashtable, int confirm){
     }
 }
 
-void ht_dumpslotquicksort(ht_t *hashtable, int slot, int confirm){
-    int cont=0;
-    entry_t *head;
-    entry_t *tail;
+void printHt(ht_t *hashtable){
+    int contall=0;
+    int contslot=0;
     for(int i=0;i<M;++i){
         entry_t *entry = hashtable->entries[i];
 
         if(entry == NULL){
             continue;
         }
-
-        if(i==slot){
-            for(;;){
-                cont++;
-                printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
-                
-                if(cont==1){
-                    head=entry;
-                }
-
-                if(entry->next==NULL){
-                    break;
-                }
-                
-                entry = entry->next;
-                if(cont>1){
-                  tail=entry;
-                } else {
-                  tail=head;
-                }
-            }
         
-        printf("\n");
-      }
-    }
-    if(confirm==1){
-        quicksort(head, tail);
-    }
-    printf("HEAD: %s\n", head->value);
-    printf("TAIL: %s\n", tail->value);
-    printf("TEM: %d nomes\n", cont);
+        for(;;){
+            contall++;
+            contslot++;
+            printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
+
+            if(entry->next==NULL){
+                break;
+            }
+
+            entry = entry->next;
+        }
+        printf("\nNumber of entries in slot[%d]: %d\n", i, contslot);
+        contslot=0;
+    } 
+    printf("Number of entries in all hashtable: %d\n", contall);
+
 }
 
 void destroy(entry_t* node){
@@ -262,21 +249,20 @@ void swap(entry_t* a, entry_t* b){
 void quicksort(entry_t* start, entry_t* end){
   if (end != NULL && start != end && start != end->next){
     entry_t* i = start->prev;
-    entry_t* pivo = end;
-    char temp[20];
+    entry_t* pivot = end;
 
     // Percorre a lista do início ao fim
     for (entry_t *j = start; j != end; j = j->next){
       // Se o valor for menor que o pivô, trocar com o i
       
-      if (strcmp(j->value, pivo->value) <= 0){
+      if (strcmp(j->value, pivot->value) <= 0){
         i = (i == NULL ? start : i->next);
         swap(i, j);
       }
     }
     // Coloca o pivô no lugar certo
     i = (i == NULL ? start : i->next);
-    swap(i, pivo);
+    swap(i, pivot);
 
     // Ordena as duas partes da lista
     quicksort(start, i->prev);
