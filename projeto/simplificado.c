@@ -31,7 +31,7 @@ entry_t *ht_pair(const char *);
 char *ht_get(ht_t *, const char *);
 void ht_dumpquicksort(ht_t *);
 void printHt(ht_t *);
-entry_t *midFind(ht_t *);
+entry_t *midFind(ht_t *, entry_t*);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 void swap(entry_t*, entry_t*);
@@ -205,7 +205,7 @@ void printHt(ht_t *hashtable){
     printf("Number of entries in all hashtable: %d\n", contall);
 }
 
-entry_t *midFind(ht_t *hashtable){
+entry_t *midFind(ht_t *hashtable, entry_t* head){
     int cont=0;
     int aux=0;
     entry_t *mid;
@@ -216,32 +216,35 @@ entry_t *midFind(ht_t *hashtable){
             continue;
         }
 
-        for(;;){
-            cont++;
+        if(head==entry){
+            for(;;){
+                cont++;
 
-            if(entry->next==NULL){
-                break;
+                if(entry->next==NULL){
+                    break;
+                }
+
+                entry = entry->next;
             }
 
-            entry = entry->next;
-        }
-
-        if(cont%2==1){
-            cont = cont -1;
-        }
-
-        for(;;){
-            aux++;
-
-            if(entry->next==NULL){
-                break;
+            if(cont%2==1){
+                cont = cont -1;
             }
+            cont=cont/2;
+            
+            for(;;){
+                aux++;
 
-            if(aux==cont){
-                mid= entry;
-            }
+                if(entry->next==NULL){
+                    break;
+                }
 
-            entry = entry->next;
+                if(aux==cont){
+                    mid=entry;
+                }
+
+                entry = entry->next;
+            }   
         }
         cont=0;
         aux=0;
@@ -281,7 +284,7 @@ void swap(entry_t *a, entry_t *b){
 void quicksort(ht_t *ht, entry_t *start, entry_t *end){
   if (end != NULL && start != end && start != end->next){
     entry_t* i = start->prev;
-    entry_t* pivot = midFind(ht);
+    entry_t* pivot = midFind(ht, start);
 
     // Percorre a lista do início ao fim
     for (entry_t *j = start; j != end; j = j->next){
