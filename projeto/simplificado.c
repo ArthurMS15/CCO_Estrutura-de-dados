@@ -31,10 +31,11 @@ entry_t *ht_pair(const char *);
 char *ht_get(ht_t *, const char *);
 void ht_dumpquicksort(ht_t *);
 void printHt(ht_t *);
+entry_t *midFind(ht_t *);
 void destroy(entry_t*);
 void freeHashTable(ht_t *);
 void swap(entry_t*, entry_t*);
-void quicksort(entry_t*, entry_t*);
+void quicksort(ht_t*, entry_t*, entry_t*);
 
 int main(){
     ht_t *ht = ht_create();
@@ -173,7 +174,7 @@ void ht_dumpquicksort(ht_t *hashtable){
         if(cont<=1){
           tail=head;
         }
-        quicksort(head, tail);
+        quicksort(hashtable, head, tail);
     }
 }
 
@@ -190,7 +191,7 @@ void printHt(ht_t *hashtable){
         for(;;){
             contall++;
             contslot++;
-            printf("slot[%d]: %s ", i, entry->value);
+            printf("slot[%d]: %s", i, entry->value);
 
             if(entry->next==NULL){
                 break;
@@ -202,6 +203,51 @@ void printHt(ht_t *hashtable){
         contslot=0;
     } 
     printf("Number of entries in all hashtable: %d\n", contall);
+}
+
+entry_t *midFind(ht_t *hashtable){
+    int cont=0;
+    int aux=0;
+    entry_t *mid;
+    for(int i=0;i<M;++i){
+        entry_t *entry = hashtable->entries[i];
+
+        if(entry == NULL){
+            continue;
+        }
+
+        for(;;){
+            cont++;
+
+            if(entry->next==NULL){
+                break;
+            }
+
+            entry = entry->next;
+        }
+
+        if(cont%2==1){
+            cont = cont -1;
+        }
+
+        for(;;){
+            aux++;
+
+            if(entry->next==NULL){
+                break;
+            }
+
+            if(aux==cont){
+                mid= entry;
+            }
+
+            entry = entry->next;
+        }
+        cont=0;
+        aux=0;
+        return mid;
+    }
+    return NULL;
 }
 
 void destroy(entry_t* node){
@@ -226,16 +272,16 @@ void freeHashTable(ht_t *hashtable){
     }   
 }
 
-void swap(entry_t* a, entry_t* b){
+void swap(entry_t *a, entry_t *b){
   char *aux = a->value;
   a->value = b->value;
   b->value = aux;
 }
 
-void quicksort(entry_t* start, entry_t* end){
+void quicksort(ht_t *ht, entry_t *start, entry_t *end){
   if (end != NULL && start != end && start != end->next){
     entry_t* i = start->prev;
-    entry_t* pivot = end;
+    entry_t* pivot = midFind(ht);
 
     // Percorre a lista do início ao fim
     for (entry_t *j = start; j != end; j = j->next){
@@ -251,7 +297,7 @@ void quicksort(entry_t* start, entry_t* end){
     swap(i, pivot);
 
     // Ordena as duas partes da lista
-    quicksort(start, i->prev);
-    quicksort(i->next, end);
+    quicksort(ht, start, i->prev);
+    quicksort(ht, i->next, end);
   }
 }
