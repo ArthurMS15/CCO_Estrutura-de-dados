@@ -208,41 +208,38 @@ entry_t *midFind(ht_t *hashtable, entry_t* head){
             continue;
         }
 
-        if(head==entry){
-            for(;;){
-                cont++;
-
-                if(entry->next==NULL){
-                    break;
-                }
-
-                entry = entry->next;
-            }
-
-            if(cont%2==1){
-                cont = cont -1;
-            }
-            cont=cont/2;
-
-            for(;;){
+        for(;;){
+            if(head==entry){
                 aux++;
+            }
+            if(aux>=1){
+                cont++;
+            }
 
-                if(entry->next==NULL){
-                    break;
-                }
+            if(entry->next==NULL){
+                break;
+            }
 
-                if(aux==cont){
-                    mid=entry;
-                }
-
-                entry = entry->next;
-            }   
+            entry = entry->next;
         }
-        cont=0;
         aux=0;
-        return mid;
+        cont=cont/2;
+        for(;;){
+            aux++;
+
+            if(aux==cont){
+                mid=entry;
+                return mid;
+            }
+
+            if(entry->next==NULL){
+                break;
+            }
+
+            entry = entry->next;
+        }
     }
-    return NULL;
+    return head;
 }
 
 void destroy(entry_t* entry){

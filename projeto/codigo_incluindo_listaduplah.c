@@ -176,8 +176,8 @@ void printHt(ht_t *hashtable){
 Elemento *midFind(ht_t *hashtable, Elemento *head){
     int cont=0;
     int aux=0;
+    Elemento *mid;
     for(int i=0;i<M;++i){
-        Lista *l=alocaLista();
         Elemento *entry = hashtable->entries[i];
 
         if(entry == NULL){
@@ -186,29 +186,34 @@ Elemento *midFind(ht_t *hashtable, Elemento *head){
 
         for(;;){
             if(head==entry){
-                if(l->size%2==1){
-                    cont = l->size-1;
-                }
-                cont=cont/2;
+                aux++;
+            }
+            if(aux>=1){
+                cont++;
             }
 
             if(entry->next==NULL){
-                break;}
+                break;
+            }
 
             entry = entry->next;
         }
+        aux=0;
+        cont=cont/2;
         for(;;){
             aux++;
+
             if(aux==cont){
-                l->mid = entry;
+                mid=entry;
+                return mid;
             }
+
             if(entry->next==NULL){
-                break;}
+                break;
+            }
 
             entry = entry->next;
         }
-        cont=0;
-        return l->mid;
     }
     return head;
 }
