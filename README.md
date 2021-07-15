@@ -85,7 +85,7 @@ O método do quicksort pegará de referência o head e o tail de um determinado 
 
 É criado variáveis temporárias necessárias para o funcionamento do mesmo "i = head->prev", "pivo = midFind(hashtable, head)", "temp" e "j = head".
 
-O método "midFind" determinará o valor do elemento pivo, usando o head como parametro para saber de qual das listas e então encontrando no determinado slot da hashtable o elemento do meio da lista.
+O método "midFind" determinará o valor do elemento pivo, usando o head como parametro para saber de qual das listas e então encontrando no determinado slot da hashtable o elemento do meio da lista. Garantindo que também caso não seja possível encontrar o mid, o mesmo retorna o head para continuar seu funcionamento.
 
 ![midFind](https://user-images.githubusercontent.com/66339390/125845403-929141de-12e3-4680-8f69-6d941244a576.png)
 
