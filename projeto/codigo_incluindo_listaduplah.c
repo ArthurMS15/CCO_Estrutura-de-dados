@@ -127,8 +127,8 @@ const char *ht_get(ht_t *hashtable, const char *value){
 }
 
 void ht_dumpquicksort(ht_t *hashtable){
-    Lista *l=alocaLista();
     for(int i=0;i<M;++i){
+        Lista *l=alocaLista();
         Elemento *entry = hashtable->entries[i];
 
         if(entry == NULL){
@@ -178,6 +178,7 @@ Elemento *midFind(ht_t *hashtable, Elemento *head){
     int aux=0;
     Elemento *mid;
     for(int i=0;i<M;++i){
+        Lista *l=alocaLista();
         Elemento *entry = hashtable->entries[i];
 
         if(entry == NULL){
@@ -185,14 +186,7 @@ Elemento *midFind(ht_t *hashtable, Elemento *head){
         }
 
         if(head==entry){
-            for(;;){
-                cont++;
-                if(entry->next==NULL){
-                    break;}
-                entry = entry->next;
-            }
-
-            if(cont%2==1){
+            if(l->size%2==1){
                 cont = cont -1;
             }
             cont=cont/2;
