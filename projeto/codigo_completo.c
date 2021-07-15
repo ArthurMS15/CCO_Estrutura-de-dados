@@ -9,18 +9,10 @@ typedef struct entry_t {
     struct entry_t* next;
     struct entry_t* prev;
 } entry_t;
-// 1 entry in the hash table, a key of value at a pointer to another entry
-
-typedef struct lista{
-    struct entry *head;
-    struct entry *tail;
-    int size;
-} lista;
 
 typedef struct ht_t {
     entry_t **entries;
 } ht_t;
-//hash table itself, array of pointers to an entry
 
 void createandsetFile();
 ht_t *ht_create(void);
