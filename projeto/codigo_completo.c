@@ -5,7 +5,6 @@
 #define M 29
 
 typedef struct entry_t {
-    int key;
     char *value;
     struct entry_t* next;
     struct entry_t* prev;
