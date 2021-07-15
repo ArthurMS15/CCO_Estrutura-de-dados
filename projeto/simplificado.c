@@ -231,7 +231,7 @@ entry_t *midFind(ht_t *hashtable, entry_t* head){
                 cont = cont -1;
             }
             cont=cont/2;
-            
+
             for(;;){
                 aux++;
 
@@ -253,24 +253,24 @@ entry_t *midFind(ht_t *hashtable, entry_t* head){
     return NULL;
 }
 
-void destroy(entry_t* node){
-    if(node->next==NULL){
-        free(node);
+void destroy(entry_t* entry){
+    if(entry->next==NULL){
+        free(entry);
     } else {
-        destroy(node->next);
-        free(node);
+        destroy(entry->next);
+        free(entry);
     }
     return;
 }
 
 void freeHashTable(ht_t *hashtable){
     for(int i=0;i<M;++i){
-        entry_t *node = hashtable->entries[i];
+        entry_t *entry = hashtable->entries[i];
 
-        if(node==NULL){
+        if(entry==NULL){
             continue;
         } else {
-            destroy(node);
+            destroy(entry);
         }
     }   
 }
