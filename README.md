@@ -87,7 +87,7 @@ O método do quicksort pegará de referência o head e o tail de um determinado 
 
 O método "midFind" determinará o valor do elemento pivo, encontrando no determinado slot da hashtable o elemento do meio da lista.
 
-![midFind](https://user-images.githubusercontent.com/66339390/125797200-a0edac80-0ecc-4cab-bf4d-37be51b9b120.png)
+![image](https://user-images.githubusercontent.com/66339390/125845403-929141de-12e3-4680-8f69-6d941244a576.png)
 
 Passando então pela a lista ele vai comparando os tamanhos das strings e se o valor encontrado for menor que o pivo é trocado com a variável i.
 
