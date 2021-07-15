@@ -69,7 +69,7 @@ Na função "ht_get" é procurado um valor através do nome. Onde é realizado u
 
 Indo para outro método envolvendo a hashtable temos "htdumpquicksort", serve para identificar o head e o tail de cada um dos slots sem a ordenação e então aplicar o quicksort no final de cada um dos slots para então deixar tudo ordenado.
 
-![htdump](https://user-images.githubusercontent.com/66339390/125796613-a0b6617c-4580-4fab-a824-499f383a69a6.png)
+![htdump](https://user-images.githubusercontent.com/66339390/125801674-d5d2df01-d32a-4dec-b319-f21b8f5414d3.png)
 
 A função "printHt" irá printar a hashtable, mostrando quantos nomes tem no total da hashtable e quantos nomes tem em cada slot.
 
