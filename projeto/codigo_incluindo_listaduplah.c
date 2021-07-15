@@ -18,6 +18,7 @@ Elemento *ht_pair(const char *);
 const char *ht_get(ht_t *, const char *);
 void ht_dumpquicksort(ht_t *);
 void printHt(ht_t *);
+void removeElement(ht_t *, const char *);
 Elemento *midFind(ht_t *, Elemento*);
 void destroy(Elemento*);
 void freeHashTable(ht_t *);
@@ -171,6 +172,29 @@ void printHt(ht_t *hashtable){
         contslot=0;
     } 
     printf("Number of entries in all hashtable: %d\n", contall);
+}
+
+void removeElement(ht_t *hashtable, const char *nome){
+    for(int i=0;i<M;++i){
+        Elemento *entry = hashtable->entries[i];
+        Lista *l=alocaLista();
+
+        if(entry == NULL){
+            continue;
+        }
+
+        for(;;){
+            
+            if(strcmp(entry->value, nome) == 0){
+                removeElemento(entry, l);
+            }
+
+            if(entry->next==NULL){
+                break;}
+
+            entry = entry->next;
+        }
+    }
 }
 
 Elemento *midFind(ht_t *hashtable, Elemento *head){
