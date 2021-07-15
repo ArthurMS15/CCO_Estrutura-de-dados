@@ -26,9 +26,9 @@ typedef struct ht_t {
 void createandsetFile();
 ht_t *ht_create(void);
 unsigned int hash(const char *);
-void ht_set(ht_t *, int, const char *);
-entry_t *ht_pair(int, const char *);
-char *ht_get(ht_t *, int, const char *);
+void ht_set(ht_t *, const char *);
+entry_t *ht_pair(const char *);
+char *ht_get(ht_t *, const char *);
 void ht_dumpquicksort(ht_t *);
 void printHt(ht_t *);
 void destroy(entry_t*);
@@ -59,10 +59,8 @@ void createandsetFile(ht_t *hashtable){
     }
 
     char nome[100];
-    int aux=0;
     while(fgets(nome, 100, file) != NULL){
-        aux++;
-        ht_set(hashtable, aux, nome);
+        ht_set(hashtable, nome);
     }
     fclose(file);
 }
@@ -94,13 +92,13 @@ unsigned int hash(const char *valuechar){
     return value;
 }
 
-void ht_set(ht_t *hashtable, int key, const char *value){
+void ht_set(ht_t *hashtable, const char *value){
     unsigned int bucket = hash(value);
 
     entry_t *entry = hashtable->entries[bucket];
 
     if(entry == NULL){
-        hashtable->entries[bucket] = ht_pair(key, value);
+        hashtable->entries[bucket] = ht_pair(value);
         return;
     }
 
@@ -111,17 +109,15 @@ void ht_set(ht_t *hashtable, int key, const char *value){
         entry = aux->next;
     }
 
-    aux->next = ht_pair(key, value);
-    aux->prev = ht_pair(key, value);
+    aux->next = ht_pair(value);
+    aux->prev = ht_pair(value);
 }
 
 
-entry_t *ht_pair(int key, const char *value){
+entry_t *ht_pair(const char *value){
     entry_t *entry = malloc(sizeof(entry) * 1);
-    entry->key = (int)malloc(sizeof(key) * 1);
     entry->value = malloc(strlen(value) + 1);
 
-    entry->key=key;
     strcpy(entry->value, value);
 
     entry->next=NULL;
@@ -130,7 +126,7 @@ entry_t *ht_pair(int key, const char *value){
     return entry;
 }
 
-char *ht_get(ht_t *hashtable, int key, const char *value){
+char *ht_get(ht_t *hashtable, const char *value){
     unsigned int slot = hash(value);
 
     entry_t *entry = hashtable->entries[slot];
@@ -140,7 +136,7 @@ char *ht_get(ht_t *hashtable, int key, const char *value){
     }
 
     while(entry != NULL){
-        if(entry->key == key){
+        if(strcmp(entry->value, value) == 0){
             return entry->value;
         } 
         entry = entry->next;
@@ -194,7 +190,7 @@ void printHt(ht_t *hashtable){
         for(;;){
             contall++;
             contslot++;
-            printf("slot[%d]: %d=%s ", i, entry->key, entry->value);
+            printf("slot[%d]: %s ", i, entry->value);
 
             if(entry->next==NULL){
                 break;
