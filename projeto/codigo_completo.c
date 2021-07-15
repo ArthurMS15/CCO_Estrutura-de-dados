@@ -149,6 +149,7 @@ void ht_dumpquicksort(ht_t *hashtable){
         }
         
         for(;;){
+            cont++;
             if(cont==1){
               head=entry;
             }

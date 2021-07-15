@@ -11,12 +11,13 @@ typedef struct sElemento{
 typedef struct sLista{
     struct sElemento *head;
     struct sElemento *tail;
+    struct sElemento *mid;
     int size;
 } Lista;
 
 Lista* alocaLista();
 Elemento* alocaElemento(const char *);
-void insereElemento(Lista *, Elemento*, char *);
+void insereElemento(Lista *, char *);
 int removeElemento(Elemento *, Lista *);
 void imprimeListaNext(Lista *);
 Elemento* pesquisarElementoNext(Lista*, char *);
@@ -38,12 +39,14 @@ Lista *alocaLista(){
     l=(Lista*)malloc(sizeof(Lista));
     l->head=NULL;
     l->tail=NULL;
+    l->mid=NULL;
     l->size=0;
     return l;
 }
 
-void insereElemento(Lista* l, Elemento* pivo, char * dado){
+void insereElemento(Lista* l, char * dado){
     Elemento *ea=alocaElemento(dado);
+    Elemento *pivo=l->tail;
     ea->value=dado;
     if((pivo==NULL) && (l->size>0)){
         printf("Erro: pivo NULL apenas na insercao do primeiro elemento\n");

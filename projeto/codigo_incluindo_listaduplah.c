@@ -127,9 +127,7 @@ const char *ht_get(ht_t *hashtable, const char *value){
 }
 
 void ht_dumpquicksort(ht_t *hashtable){
-    int cont=0;
-    Elemento *head;
-    Elemento *tail;
+    Lista *l=alocaLista();
     for(int i=0;i<M;++i){
         Elemento *entry = hashtable->entries[i];
 
@@ -138,23 +136,13 @@ void ht_dumpquicksort(ht_t *hashtable){
         }
         
         for(;;){
-            if(cont==1){
-              head=entry;
-            }
-
+            insereElemento(l, entry->value);
             if(entry->next==NULL){
-                break;
-            }
+                break;}
 
             entry = entry->next;
-            if(cont>1){
-              tail=entry;
-            }
         }
-        if(cont<=1){
-          tail=head;
-        }
-        quicksort(hashtable, head, tail);
+        quicksort(hashtable, l->head, l->tail);
     }
 }
 
@@ -199,11 +187,8 @@ Elemento *midFind(ht_t *hashtable, Elemento *head){
         if(head==entry){
             for(;;){
                 cont++;
-
                 if(entry->next==NULL){
-                    break;
-                }
-
+                    break;}
                 entry = entry->next;
             }
 
@@ -214,14 +199,11 @@ Elemento *midFind(ht_t *hashtable, Elemento *head){
 
             for(;;){
                 aux++;
-
                 if(entry->next==NULL){
-                    break;
-                }
+                    break;}
 
                 if(aux==cont){
-                    mid=entry;
-                }
+                    mid=entry;}
 
                 entry = entry->next;
             }   
@@ -269,7 +251,6 @@ void quicksort(ht_t *ht, Elemento *start, Elemento *end){
     // Percorre a lista do início ao fim
     for (Elemento *j = start; j != end; j = j->next){
       // Se o valor for menor que o pivô, trocar com o i
-      
       if (strcmp(j->value, pivot->value) <= 0){
         i = (i == NULL ? start : i->next);
         swap(i, j);
