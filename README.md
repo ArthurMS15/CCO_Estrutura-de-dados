@@ -11,11 +11,11 @@ Assim como o problema demonstra pelas imagens e textos, foi decidido começar pe
 2-Inserção, consulta, quantidade de elementos por chave, remoção, e outros;
 
 3:
-  1. O tratamento de colisão deve ser implementado a partir do momento em que duas chaves diferentes acabam apresentando o mesmo valor hash, sendo consequentemente levadas pra mesma posição na tabela hash;
-  2. A implementação do tratamento pode ser feita através da implementação de uma lista encadeada (onde a mesma não apresentará um limite de nomes que podem ser colocados, então através do ponteiro "* next" a mesma pode simplesmente colocar o outro nome como um next da posição onde ela inicialmente iria ocupar);
+  1. O tratamento de colisão deve ser implementado a partir do momento em que duas chaves diferentes acabam apresentando o mesmo valor hash, sendo consequentemente levadas para  a mesma posição na tabela hash;
+  2. A implementação do tratamento pode ser feita através da implementação de conceitos de uma lista encadeada (onde a mesma não apresentará um limite de nomes que podem ser colocados, então através do ponteiro "* next" a mesma pode simplesmente colocar o outro nome como um next da posição onde ela inicialmente iria ocupar);
   3. O máximo que se conseguiu alcançar é um hash que apresenta um resultado aproximadamente uniforme, entretanto não é perfeito como na teoria, na realidade todos os valores de cada chave do hash apresentam apenas um valor próximo um ao outro;
   4. Histograma:
-![image](https://user-images.githubusercontent.com/66339390/125474924-59164bcb-81b0-4a54-9458-9a67a1571ef9.png)
+![histograma](https://user-images.githubusercontent.com/66339390/125474924-59164bcb-81b0-4a54-9458-9a67a1571ef9.png)
 Como é possível notar os resultados aproximam-se bastante com o **maior sendo na chave 12: 3589, e o menor na chave 19: 3361.**
 E com **média: 3475** (linha vermelha do histograma)
 
@@ -27,23 +27,23 @@ E com **média: 3475** (linha vermelha do histograma)
 
 Primeiro há definição da quantidade de chaves que a hashtable terá, sendo neste caso: 29, o motivo por trás é por 29 ser o número primo mais próximo de 26 (que é a quantidade de letras do alfabeto - feito por tentativa e erro).
 
-Logo em seguida há a construção de duas structs "entry_t" e "ht_t", uma representando o elemento da hash contendo o valor em ponteiro char, e um ponteiro para uma nova struct "entry_t" sendo este: "next" e do elemento anterior "prev".
+Tendo a inclusão do arquivo "listadupla.h" isso permite que seja reutilizado parte do código, como a struct do nodo (representando um elemento de alguma chave da lista hash, contendo assim então implementações de ponteiros next e prev evitando consequentemente que ocorra uma colisão) e implementações de inserção e remoção.
 
-Já a struct "ht_t" é a própria hashtable, sendo praticamente um array de ponteiros para uma "entry_t".
+Logo em seguida há a construção da struct "ht_t", sendo a própria hashtable, constituindo-se praticamente de um array de ponteiros para um nodo/elemento.
 
 E logo posteriormente vem a prototipação.
 
-![struct](https://user-images.githubusercontent.com/66339390/125795304-529e397d-d81f-4a69-a6c6-6d6f436e42dc.png)
+![inicio](https://user-images.githubusercontent.com/66339390/125873221-39805254-6a82-4bac-a055-00ec7c4188a3.png)
 
 Explorando agora os métodos, o primeiro a ser realizado é a criação do file para inserir os nomes na hashtable.
 
 ![file](https://user-images.githubusercontent.com/66339390/125795518-91949eff-9d1e-4c40-836b-a8c6d91b14d9.png)
 
-Adiante há o método responsável por criar a a hashtable "ht_t * ht_create(void)", que no caso irá retornar a hashtable criada. 
+Adiante há o método responsável por criar a a hashtable "ht_t * ht_create(void)", que no caso irá retornar a hashtable inicializada. 
 
 Ele faz alocação dinâmica de memória da hashtable em si (1 ponteiro só), e também das entradas (elementos) que serão colocados na hashtable baseando-se no tamanho das chaves para o cálculo (criando neste caso então 29 ponteiros), além disso também setará todas as entradas de cada chave para valores nulos:
 
-![image](https://user-images.githubusercontent.com/66339390/125383927-8c055700-e36e-11eb-9dc1-fc92999690ea.png)
+![htcreate](https://user-images.githubusercontent.com/66339390/125383927-8c055700-e36e-11eb-9dc1-fc92999690ea.png)
 
 Outro método agora é a função modular da hashtable onde retorna um valor sempre positivo e inteiro que fica entre zero e M-1, através do "value = value % M", garantido isso.
 
@@ -51,15 +51,15 @@ Então ele passa calculando e acumulando o valor conseguido de cada caracter do 
 
 ![funcaomodularhash](https://user-images.githubusercontent.com/66339390/125795763-4e9641a9-7be9-4278-903b-faabb6f2f1dd.png)
 
-A função "ht_pair" é responsável por alocar memória na própria entry, alocando memória para todos seus valores, setando o next e prev para null e por fim retornando a entry inicializada:
+A função "ht_pair" é responsável por alocar memória do elemento da lista encadeada dupla, alocando memória para todos seus valores, setando o next e prev para null e por fim retornando o elemento inicializado:
 
-![htpair](https://user-images.githubusercontent.com/66339390/125795882-4737514b-c3f9-4bc5-8182-8a3d82f685ac.png)
+![htpair](https://user-images.githubusercontent.com/66339390/125873746-73dacefb-beb0-40e2-928b-57122cc4869f.png)
 
-Indo para o método "ht_set", o mesmo começa fazendo o hash da int bucket para saber em qual slot será colocado, quando já sabemos do slot, nós encontramos uma entry para aquele slot.
+Indo para o método "ht_set", o mesmo começa fazendo o hash da int bucket para saber em qual slot o elemento será colocado, quando já sabemos do slot.
 
 Vendo que todos os ponteiros inicializados são NULL. Começando então sendo null, é inserido um novo value naquele slot. 
 
-Mas se a entry não for null, ou já existe uma chave e devemos atualizar o valor, ou aconteceu uma colisão (duas chaves fazendo hash no mesmo slot). E isso é corrigido da seguinte maneira: é passado por cada uma das entries até que se chegue no fim, ou até que tenha achado uma chave correspondente onde então é atualizado o valor. Chegando ao fim da lista é adicionado uma nova entry
+Mas se a entry não for null, ou já existe uma chave e devemos atualizar o valor, ou aconteceu uma colisão. E isso é corrigido da seguinte maneira: é passado por cada um do eleementos até que se chegue no fim, ou até que tenha achado um value/nome correspondente onde então é atualizado o valor. Chegando ao fim da lista é adicionado uma nova entry
 
 ![htset](https://user-images.githubusercontent.com/66339390/125796136-ef19cf5e-b8d2-47bc-8efe-2bae3faa2bfe.png)
 
@@ -67,13 +67,17 @@ Na função "ht_get" é procurado um valor através do nome. Onde é realizado u
 
 ![htget](https://user-images.githubusercontent.com/66339390/125796289-18c8ae7f-b6c7-4849-8bec-9d7c3a37d4cd.png)
 
-Indo para outro método envolvendo a hashtable temos "htdumpquicksort", serve para identificar o head e o tail de cada um dos slots sem a ordenação e então aplicar o quicksort no final de cada um dos slots para então deixar tudo ordenado.
+Indo para outro método envolvendo a hashtable temos "htdumpquicksort", serve para identificar o head e o tail (juntamente com a alocação da lista) de cada um dos slots sem a ordenação e então aplicar o quicksort no final de cada um dos slots para então deixar tudo ordenado.
 
-![htdump](https://user-images.githubusercontent.com/66339390/125801674-d5d2df01-d32a-4dec-b319-f21b8f5414d3.png)
+![htdump](https://user-images.githubusercontent.com/66339390/125874454-5f2d9d82-57ba-48ea-a316-cc58af89d840.png)
 
 A função "printHt" irá printar a hashtable, mostrando quantos nomes tem no total da hashtable e quantos nomes tem em cada slot.
 
 ![printht](https://user-images.githubusercontent.com/66339390/125796782-026df251-ca9d-4685-b05d-37640b171c79.png)
+
+Há o étodo "removeElement" responsável por remover um determinado nome da lista, passando então por toda tabela hash até encontrar e então levar para um método da lista encadeada dupla "removeElemento".
+
+![remove](https://user-images.githubusercontent.com/66339390/125874679-90a5535b-815f-4d0e-84dd-8757603f2778.png)
 
 Por fim da hash table é feito o método "destroy" e o "freeHashTable" que realizarão o free de toda a hash table conjuntamente com todas as entries que estiverem nela de forma recursiva:
 
@@ -87,7 +91,7 @@ O método do quicksort pegará de referência o head e o tail de um determinado 
 
 O método "midFind" determinará o valor do elemento pivo, usando o head como parametro para saber de qual das listas e então encontrando no determinado slot da hashtable o elemento do meio da lista. Garantindo que também caso não seja possível encontrar o mid, o mesmo retorna o head para continuar seu funcionamento.
 
-![midFind](https://user-images.githubusercontent.com/66339390/125845403-929141de-12e3-4680-8f69-6d941244a576.png)
+![midFind](https://user-images.githubusercontent.com/66339390/125874724-6751ccbf-9f83-48dc-908d-9e07c6a0f004.png)
 
 Passando então pela a lista ele vai comparando os tamanhos das strings e se o valor encontrado for menor que o pivo é trocado com a variável i.
 
