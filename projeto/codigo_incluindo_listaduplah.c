@@ -177,13 +177,13 @@ void printHt(ht_t *hashtable){
 void removeElement(ht_t *hashtable, const char *nome){
     for(int i=0;i<M;++i){
         Elemento *entry = hashtable->entries[i];
-        Lista *l=alocaLista();
 
         if(entry == NULL){
             continue;
         }
 
         for(;;){
+            Lista *l=alocaLista();
             
             if(strcmp(entry->value, nome) == 0){
                 removeElemento(entry, l);
